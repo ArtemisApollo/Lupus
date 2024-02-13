@@ -14,13 +14,14 @@ import lupus.core.LupusRuntime;
 
 // File Docstring
 /**
- * {@link LupusRuntimeLauncher}
+ * Handles the launching of a {@link LupusRuntime} instance. Assures that only
+ * {@code one} instance is launched to avoid any race conditions.
  *
  * @author @MaxineToTheStars <https://github.com/MaxineToTheStars>
  */
 
 // Class Definition
-public class LupusRuntimeLauncher {
+public final class LupusRuntimeLauncher {
 	// Enums
 
 	// Interfaces
@@ -36,14 +37,20 @@ public class LupusRuntimeLauncher {
 
 	// Public Static Methods
 	/**
-	 * Implementation of the {@link LupusRuntimeLauncher}
+	 * Implementation of the {@code launchApp} method found in {@link Application}.
+	 * Instances and starts a new {@link LupusRuntime}.
 	 *
-	 * @param appClassReference - A reference to the extending {@link Application}
+	 * @param appClassReference - A reference to the inheriting {@link Application}
 	 *                          class
 	 * @param args              - Command line arguments
+	 * @throws IllegalStateException if the {@link LupusRuntimeLauncher} was invoked
+	 *                               again after running {@code launchApp}
+	 * @throws RuntimeException      if the {@link LupusRuntime} runs into an
+	 *                               unexpected error while running
 	 * @return {@link void}
 	 */
-	public static void launchAppImpl(Class<? extends Application> appClassReference, String[] args) {
+	public static void launchAppImpl(final Class<? extends Application> appClassReference, final String[] args)
+			throws IllegalStateException, RuntimeException {
 		// Check if runtime was already launched
 		if (LupusRuntimeLauncher.isLaunched.getAndSet(true) == true) {
 			// Throw exception
@@ -53,16 +60,16 @@ public class LupusRuntimeLauncher {
 		// Create a synchronization latch
 		final CountDownLatch synchronizationLatch = new CountDownLatch(1);
 
-		// Create a new RuntimeLauncher thread
+		// Create a new runtime thread
 		Thread runtimeThread = new Thread(() -> {
 			try {
-				// Start the Core
+				// Start the runtime
 				new LupusRuntime(appClassReference, args).start();
 			} catch (Exception ex) {
-				// Handle the exception
-				System.err.println(ex);
+				// Handle any exceptions
+				System.err.println("Launcher exception occurred!\n" + ex + "---");
 			} finally {
-				// Decrement the count down
+				// Decrement the latch
 				synchronizationLatch.countDown();
 			}
 		});
@@ -73,13 +80,13 @@ public class LupusRuntimeLauncher {
 		// Start the thread
 		runtimeThread.start();
 
-		// Wait for the thread to finish before returning
+		// Try to wait for the thread to finish before returning
 		try {
 			// Await for the thread to exit
 			synchronizationLatch.await();
 		} catch (InterruptedException ex) {
 			// Throw exception
-			throw new RuntimeException("An exception occurred!\n" + ex);
+			throw new RuntimeException("An unexpected exception occurred!\n" + ex + "---");
 		}
 	}
 
