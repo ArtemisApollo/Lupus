@@ -52,6 +52,22 @@ public abstract class Node {
         return this._childrenNodes.get(index);
     }
 
+    /**
+     * Returns all the children attached to this object.
+     *
+     * @return {@link Node}[]
+     */
+    public Node[] getChildren() {
+        // Create a new Node array
+        Node[] returnNodes = new Node[this._childrenNodes.size()];
+
+        // Populate with data
+        returnNodes = this._childrenNodes.toArray(returnNodes);
+
+        // Return
+        return returnNodes;
+    }
+
     // Private Static Methods
 
     // Private Inherited Methods

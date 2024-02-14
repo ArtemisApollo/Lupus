@@ -3,6 +3,7 @@ package lupus.core;
 
 // Import Statements
 import lupus.Application;
+import lupus.graphics.components.Node;
 import lupus.graphics.LupusRuntimeWindow;
 
 // File Docstring
@@ -80,6 +81,16 @@ public final class LupusApp {
 		 */
 		public void setWindowVisibility(final boolean value) {
 			this._window.setWindowVisibilityImpl(value);
+		}
+
+		/**
+		 * Add a given component to the UI tree.
+		 *
+		 * @param component - The component to add
+		 * @return {@link void}
+		 */
+		public void addComponent(final Node component) {
+			this._window.addComponentImpl(component);
 		}
 
 		// Public Inherited Methods

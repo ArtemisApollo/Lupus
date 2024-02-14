@@ -33,7 +33,7 @@ public final class Pixel {
      */
     public Pixel() {
         // Set pixel value to white
-        this._pixelValue = new Color(0, 0, 0);
+        this._pixelValue = new Color(255, 255, 255);
     }
 
     /**

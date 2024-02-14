@@ -6,6 +6,7 @@ import java.awt.Canvas;
 import java.awt.Graphics;
 import java.awt.Dimension;
 import javax.swing.JFrame;
+import java.util.ArrayList;
 
 import lupus.core.LupusApp;
 import lupus.graphics.Pixel;
@@ -35,6 +36,7 @@ public final class LupusRuntimeWindow extends Canvas {
     // Private Variables
     private int _windowWidth;
     private int _windowHeight;
+    private ArrayList<Node> _nodeTree;
     private JFrame _runtimeWindowJFrame;
     private Dimension _windowDimensions;
     private Pixel[][][] _pixelBufferArray;
@@ -56,6 +58,9 @@ public final class LupusRuntimeWindow extends Canvas {
         // Instance a new PixelBufferArray and fill it
         this._pixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][this.MAXIMIN_Z_LEVEL];
         this._fillPixelBufferArray();
+
+        // Instance a new UI tree
+        this._nodeTree = new ArrayList<Node>();
 
         // Instance a new JFrame
         this._runtimeWindowJFrame = new JFrame();
@@ -91,13 +96,14 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
-     * Adds a given component to the UI tree.
+     * Implementation of the {@code addComponent} method found in the
+     * {@link LupusWindow} class.
      *
      * @param component - The component to add
      * @return {@link void}
      */
-    public void addComponent(final Node component) {
-        return;
+    public void addComponentImpl(final Node component) {
+        this._nodeTree.add(component);
     }
 
     /**
