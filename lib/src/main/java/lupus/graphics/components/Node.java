@@ -3,6 +3,7 @@ package lupus.graphics.components;
 
 // Import Statements
 import java.util.ArrayList;
+import java.lang.IndexOutOfBoundsException;
 
 // File Docstring
 /**
@@ -23,6 +24,7 @@ public abstract class Node {
     // Public Variables
 
     // Private Variables
+    private Node _parentNode = null;
     private ArrayList<Node> _childrenNodes = new ArrayList<Node>();
 
     // Constructor
@@ -36,7 +38,11 @@ public abstract class Node {
      * @param childNode - The child node
      * @return {@link void}
      */
-    public void addChild(final Node childNode) {
+    public void addChildNode(final Node childNode) {
+        // Set the parent node
+        childNode._setParentNode(this);
+
+        // Add to list
         this._childrenNodes.add(childNode);
     }
 
@@ -48,7 +54,7 @@ public abstract class Node {
      *                                   ({@code index < 0 || index >= size()})
      * @return {@link Node}
      */
-    public Node getChild(final int index) throws IndexOutOfBoundsException {
+    public Node getChildNode(final int index) throws IndexOutOfBoundsException {
         return this._childrenNodes.get(index);
     }
 
@@ -57,7 +63,7 @@ public abstract class Node {
      *
      * @return {@link Node}[]
      */
-    public Node[] getChildren() {
+    public Node[] getChildrenNodes() {
         // Create a new Node array
         Node[] returnNodes = new Node[this._childrenNodes.size()];
 
@@ -68,7 +74,26 @@ public abstract class Node {
         return returnNodes;
     }
 
+    /**
+     * Returns the parent {@link Node} of the current {@link Node}, or {@code null}
+     * if the {@link Node} lacks a parent.
+     *
+     * @return {@link Node}
+     */
+    public Node getParentNode() {
+        return this._parentNode;
+    }
+
     // Private Static Methods
 
     // Private Inherited Methods
+    /**
+     * Sets the parent {@link Node} for the current {@link Node}.
+     *
+     * @param parentNode - The parent node
+     * @return {@link void}
+     */
+    private void _setParentNode(final Node parentNode) {
+        this._parentNode = parentNode;
+    }
 }
