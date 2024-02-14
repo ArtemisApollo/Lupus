@@ -72,7 +72,7 @@ public final class LupusRuntimeWindow extends Canvas {
         this._runtimeWindowJFrame.setTitle("Lupus-RuntimeWindow");
         this._runtimeWindowJFrame.setPreferredSize(this._windowDimensions);
 
-        // Add a reference to the canvas
+        // Add a reference to the Canvas
         this._runtimeWindowJFrame.add(this);
 
         // Pack the frame

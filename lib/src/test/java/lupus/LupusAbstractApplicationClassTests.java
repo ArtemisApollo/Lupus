@@ -9,6 +9,8 @@ import org.junit.jupiter.api.Test;
 
 // File Docstring
 /**
+ * Testing class.
+ *
  * @author @MaxineToTheStars <https://github.com/MaxineToTheStars>
  */
 
@@ -27,6 +29,9 @@ public class LupusAbstractApplicationClassTests extends Application {
 	// Constructor
 
 	// Public Static Methods
+	public static void main(String[] args) {
+		LupusAbstractApplicationClassTests.launchApp(LupusAbstractApplicationClassTests.class, args);
+	}
 
 	// Public Inherited Methods
 	@Test
