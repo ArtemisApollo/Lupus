@@ -7,7 +7,6 @@ import java.awt.Graphics;
 import java.awt.Dimension;
 import javax.swing.JFrame;
 import java.util.ArrayList;
-
 import lupus.core.LupusApp;
 import lupus.graphics.Pixel;
 import lupus.graphics.components.Node;
@@ -29,17 +28,17 @@ public final class LupusRuntimeWindow extends Canvas {
     // Interfaces
 
     // Constants
-    final int MAXIMIN_Z_LEVEL = 2;
+    private final int _MAXIMIN_Z_LEVEL = 2;
 
     // Public Variables
 
     // Private Variables
     private int _windowWidth;
     private int _windowHeight;
-    private ArrayList<Node> _nodeTree;
-    private JFrame _runtimeWindowJFrame;
     private Dimension _windowDimensions;
     private Pixel[][][] _pixelBufferArray;
+    private final ArrayList<Node> _nodeTree;
+    private final JFrame _runtimeWindowJFrame;
 
     // Constructor
     /**
@@ -56,7 +55,7 @@ public final class LupusRuntimeWindow extends Canvas {
         this._windowDimensions = new Dimension(this._windowWidth, this._windowHeight);
 
         // Instance a new PixelBufferArray and fill it
-        this._pixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][this.MAXIMIN_Z_LEVEL];
+        this._pixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][this._MAXIMIN_Z_LEVEL];
         this._fillPixelBufferArray();
 
         // Instance a new UI tree
@@ -92,6 +91,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * @return {@link void}
      */
     public void start() {
+        // Set window visibility
         this.setWindowVisibilityImpl(true);
     }
 
@@ -103,6 +103,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * @return {@link void}
      */
     public void addComponentImpl(final Node component) {
+        // Add the component
         this._nodeTree.add(component);
     }
 
@@ -114,6 +115,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * @return {@link void}
      */
     public void setWindowTitleImpl(final String text) {
+        // Set the title
         this._runtimeWindowJFrame.setTitle(text);
     }
 
@@ -125,6 +127,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * @return {@link void}
      */
     public void setWindowVisibilityImpl(final boolean value) {
+        // Set visibility state
         this._runtimeWindowJFrame.setVisible(value);
     }
 
@@ -136,6 +139,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * @return {@link void}
      */
     public void setDecoratedImpl(final boolean value) {
+        // Set decorated state
         this._runtimeWindowJFrame.setUndecorated(!value);
     }
 

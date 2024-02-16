@@ -15,7 +15,7 @@ import lupus.graphics.LupusRuntimeWindow;
  * @author @MaxineToTheStars <https://github.com/MaxineToTheStars>
  */
 
-// Class Definitions
+// Class Definition
 public final class LupusApp {
 	// Inner Classes
 	/**
@@ -44,6 +44,7 @@ public final class LupusApp {
 		 * @return {@link void}
 		 */
 		protected LupusWindow(final LupusRuntimeWindow window) {
+			// Set a reference to the LupusRuntimeWindow
 			this._window = window;
 		}
 
@@ -55,6 +56,7 @@ public final class LupusApp {
 		 * @return {@link void}
 		 */
 		public void setWindowTitle(final String text) {
+			// Call the setWindowTitle implementation
 			this._window.setWindowTitleImpl(text);
 		}
 
@@ -67,10 +69,14 @@ public final class LupusApp {
 		 * @return {@link void}
 		 */
 		public void setDecorated(final boolean value) {
+			// Call the setWindowVisibility implementation
 			this._window.setWindowVisibilityImpl(false);
-			this._window.setDecoratedImpl(value);
-			this._window.setWindowVisibilityImpl(true);
 
+			// Call the setDecorated implementation
+			this._window.setDecoratedImpl(value);
+
+			// Call the setWindowVisibility implementation
+			this._window.setWindowVisibilityImpl(true);
 		}
 
 		/**
@@ -80,6 +86,7 @@ public final class LupusApp {
 		 * @return {@link void}
 		 */
 		public void setWindowVisibility(final boolean value) {
+			// Call the setWindowVisibility implementation
 			this._window.setWindowVisibilityImpl(value);
 		}
 
@@ -90,6 +97,7 @@ public final class LupusApp {
 		 * @return {@link void}
 		 */
 		public void addComponent(final Node component) {
+			// Call the addComponent implementation
 			this._window.addComponentImpl(component);
 		}
 

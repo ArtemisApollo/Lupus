@@ -91,6 +91,7 @@ public final class Pixel {
      * @return {@link Color}
      */
     public Color getPixelValue() {
+        // Return the pixel value
         return this._pixelValue;
     }
 
@@ -101,6 +102,7 @@ public final class Pixel {
      * @return {@link void}
      */
     public void setPixelValue(final Color value) {
+        // Set the pixel value
         this._pixelValue = value;
     }
 

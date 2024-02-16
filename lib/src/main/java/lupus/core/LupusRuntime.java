@@ -2,10 +2,12 @@
 package lupus.core;
 
 // Import Statements
+import java.awt.Toolkit;
+import java.awt.AWTEvent;
 import java.lang.Exception;
-
 import lupus.Application;
 import lupus.core.LupusApp;
+import lupus.input.LupusEventListener;
 import lupus.graphics.LupusRuntimeWindow;
 
 // File Docstring
@@ -62,10 +64,13 @@ public final class LupusRuntime {
 
     // Public Inherited Methods
     /**
-     * yeah
+     * Handles the starting and instancing of required components in Lupus.
+     *
+     * @return {@link void}
      */
     public void start() {
         // Instance the required components
+        final LupusEventListener lupusEventListener = new LupusEventListener();
         final LupusRuntimeWindow lupusRuntimeWindow = new LupusRuntimeWindow(1920, 1080);
 
         // Create a new LupusApp object
@@ -73,6 +78,9 @@ public final class LupusRuntime {
 
         // Register components
         lupusApp.registerWindowComponent(lupusRuntimeWindow);
+
+        // Listen to ALL events
+        Toolkit.getDefaultToolkit().addAWTEventListener(lupusEventListener, -1);
 
         // Start the required components
         lupusRuntimeWindow.start();

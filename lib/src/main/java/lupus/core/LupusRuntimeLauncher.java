@@ -8,7 +8,6 @@ import java.lang.InterruptedException;
 import java.lang.IllegalStateException;
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicBoolean;
-
 import lupus.Application;
 import lupus.core.LupusRuntime;
 
@@ -31,7 +30,7 @@ public final class LupusRuntimeLauncher {
 	// Public Variables
 
 	// Private Variables
-	private static AtomicBoolean isLaunched = new AtomicBoolean(false);
+	private final static AtomicBoolean isLaunched = new AtomicBoolean(false);
 
 	// Constructor
 

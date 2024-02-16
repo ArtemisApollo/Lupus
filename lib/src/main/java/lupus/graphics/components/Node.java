@@ -4,6 +4,7 @@ package lupus.graphics.components;
 // Import Statements
 import java.util.ArrayList;
 import java.lang.IndexOutOfBoundsException;
+import lupus.input.LupusEventListener;
 
 // File Docstring
 /**
@@ -14,7 +15,7 @@ import java.lang.IndexOutOfBoundsException;
  */
 
 // Class Definition
-public abstract class Node {
+public abstract class Node extends LupusEventListener {
     // Enums
 
     // Interfaces
@@ -25,7 +26,7 @@ public abstract class Node {
 
     // Private Variables
     private Node _parentNode = null;
-    private ArrayList<Node> _childrenNodes = new ArrayList<Node>();
+    private final ArrayList<Node> _childrenNodes = new ArrayList<Node>();
 
     // Constructor
 
@@ -55,6 +56,7 @@ public abstract class Node {
      * @return {@link Node}
      */
     public Node getChildNode(final int index) throws IndexOutOfBoundsException {
+        // Get get the children node at index
         return this._childrenNodes.get(index);
     }
 
@@ -81,6 +83,7 @@ public abstract class Node {
      * @return {@link Node}
      */
     public Node getParentNode() {
+        // Return the parent node
         return this._parentNode;
     }
 
@@ -94,6 +97,7 @@ public abstract class Node {
      * @return {@link void}
      */
     private void _setParentNode(final Node parentNode) {
+        // Set the parent node
         this._parentNode = parentNode;
     }
 }
