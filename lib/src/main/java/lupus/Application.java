@@ -70,6 +70,7 @@ public abstract class Application {
      * @return {@link void}
      */
     public void start(final LupusApp app) {
+        // Early return
         return;
     }
 

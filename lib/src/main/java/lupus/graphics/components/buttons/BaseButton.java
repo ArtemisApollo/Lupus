@@ -65,6 +65,9 @@ public abstract class BaseButton extends Node {
         // Retrieve data
         final Position mousePosition = new Position(mouseEvent.getLocationOnScreen().getX(),
                 mouseEvent.getLocationOnScreen().getY());
+
+        // Log
+        System.out.println(mousePosition.getX() + ", " + mousePosition.getY());
     }
 
     // Private Static Methods

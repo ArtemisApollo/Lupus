@@ -83,7 +83,7 @@ public final class LupusRuntime {
         Toolkit.getDefaultToolkit().addAWTEventListener(lupusEventListener, -1);
 
         // Start the required components
-        lupusRuntimeWindow.start();
+        // lupusRuntimeWindow.start();
 
         // Call the start method
         this._instancedApplicationReference.start(lupusApp);

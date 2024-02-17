@@ -84,16 +84,16 @@ public final class LupusRuntimeWindow extends Canvas {
     // Public Static Methods
 
     // Public Inherited Methods
-    /**
-     * Internally invokes {@code setWindowVisibilityImpl} to show the
-     * {@link LupusRuntimeWindow}.
-     *
-     * @return {@link void}
-     */
-    public void start() {
-        // Set window visibility
-        this.setWindowVisibilityImpl(true);
-    }
+    // /**
+    // * Internally invokes {@code setWindowVisibilityImpl} to show the
+    // * {@link LupusRuntimeWindow}.
+    // *
+    // * @return {@link void}
+    // */
+    // public void start() {
+    // // Set window visibility
+    // this.setWindowVisibilityImpl(true);
+    // }
 
     /**
      * Implementation of the {@code addComponent} method found in the
@@ -105,6 +105,9 @@ public final class LupusRuntimeWindow extends Canvas {
     public void addComponentImpl(final Node component) {
         // Add the component
         this._nodeTree.add(component);
+
+        // Update
+        this._update();
     }
 
     /**
@@ -205,5 +208,15 @@ public final class LupusRuntimeWindow extends Canvas {
                 }
             }
         }
+    }
+
+    /**
+     * Updates the {@link Canvas}.
+     *
+     * @return {@link void}
+     */
+    private void _update() {
+        // Early return
+        return;
     }
 }

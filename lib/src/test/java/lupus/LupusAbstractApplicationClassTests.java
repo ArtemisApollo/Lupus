@@ -37,17 +37,25 @@ public final class LupusAbstractApplicationClassTests extends Application {
 	 * @return {@link void}
 	 */
 	public static void main(final String[] args) {
+		// Launch the app
 		LupusAbstractApplicationClassTests.launchApp(LupusAbstractApplicationClassTests.class, args);
 	}
 
 	// Public Inherited Methods
 	@Override
+	// Start method
 	public void start(final LupusApp app) {
-		return;
+		// Set undecorated
+		app.window.setDecorated(false);
+
+		// Show the window
+		app.show();
 	}
 
 	@Test
+	// Test launchApp method
 	void testLaunchAppMethod() {
+		// Launch the app
 		LupusAbstractApplicationClassTests.launchApp(LupusAbstractApplicationClassTests.class, new String[0]);
 	}
 

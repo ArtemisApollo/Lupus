@@ -135,6 +135,18 @@ public final class LupusApp {
 		this.window = new LupusWindow(window);
 	}
 
+	/**
+	 * Shows the {@link LupusRuntimeWindow}.
+	 *
+	 * @implNote This method will internally call {@code setWindowVisibility} to
+	 *           show the window
+	 * @return {@link void}
+	 */
+	public void show() {
+		// Call setWindowVisibility
+		this.window.setWindowVisibility(true);
+	}
+
 	// Private Static Methods
 
 	// Private Inherited Methods

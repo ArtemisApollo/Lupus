@@ -42,13 +42,13 @@ public class LupusEventListener implements AWTEventListener {
      * @return {@link void}
      */
     public void listenFor(final long... eventID) {
-        // Set the listen ID
+        // Set the listen ID(s)
         this._listenIDs = eventID;
     }
 
     /**
      * Handles the receiving of queued {@link AWTEvent}s based on the current value
-     * of {@code listenIDs}.
+     * of {@code listenID(s)}.
      *
      * @return {@link void}
      */
@@ -56,11 +56,11 @@ public class LupusEventListener implements AWTEventListener {
         // Get the event ID
         final long dispatchedEventID = dispatchedEvent.getID();
 
-        // Iterate
+        // Iterate through all "listening for" IDs
         for (long id : this._listenIDs) {
-            // Check
+            // Check if the current ID matches the dispatchedEvent ID
             if (id == dispatchedEventID) {
-                // Call
+                // Call .input
                 this.input(dispatchedEvent);
             }
         }
@@ -73,6 +73,7 @@ public class LupusEventListener implements AWTEventListener {
      * @return {@link void}
      */
     public void input(final AWTEvent event) {
+        // Early return
         return;
     }
 
