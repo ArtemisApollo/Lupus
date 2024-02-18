@@ -90,7 +90,7 @@ public class LupusEventListener implements AWTEventListener {
     // Private Inherited Methods
     /**
      * Contains an internal mapping of event masks to IDs. Returns the corresponding
-     * ID based off the mask.
+     * ID based off the mask or {@code null} if not found.
      *
      * @param id - The event mask
      * @see {@link AWTEvent}

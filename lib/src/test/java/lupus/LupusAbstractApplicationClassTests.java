@@ -31,7 +31,7 @@ public final class LupusAbstractApplicationClassTests extends Application {
 
 	// Public Static Methods
 	/**
-	 * The {@code Main} method. Use for running with VSCode's {@code Run Java}
+	 * The {@code main} method. Use for running with VSCode's {@code Run Java}
 	 * button.
 	 *
 	 * @param args - Command line arguments
@@ -44,7 +44,7 @@ public final class LupusAbstractApplicationClassTests extends Application {
 
 	// Public Inherited Methods
 	/**
-	 * Overridden start method
+	 * Overridden start method.
 	 */
 	@Override
 	public void start(final LupusApp app) {

@@ -5,7 +5,6 @@ package lupus.core;
 import java.lang.Exception;
 import lupus.Application;
 import lupus.core.LupusApp;
-import lupus.input.LupusEventListener;
 import lupus.graphics.LupusRuntimeWindow;
 
 // File Docstring

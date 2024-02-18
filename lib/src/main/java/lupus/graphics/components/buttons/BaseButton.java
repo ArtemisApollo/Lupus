@@ -2,7 +2,6 @@
 package lupus.graphics.components.buttons;
 
 // Import Statements
-import java.awt.Point;
 import java.awt.AWTEvent;
 import java.awt.event.MouseEvent;
 import lupus.graphics.Position;
