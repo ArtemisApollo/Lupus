@@ -49,10 +49,10 @@ public final class LupusAbstractApplicationClassTests extends Application {
 	@Override
 	public void start(final LupusApp app) {
 		// Create a new Button node
-		Button myButton = new Button();
+		final Button myRootButton = new Button();
 
 		// Add it to the node tree
-		app.window.addComponent(myButton);
+		app.window.addComponent(myRootButton);
 
 		// Show the window
 		app.show();

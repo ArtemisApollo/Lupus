@@ -120,8 +120,11 @@ public final class LupusRuntimeWindow extends Canvas {
         // Register with the event queue
         component.attachToEventQueue();
 
-        // Update
-        this._update();
+        // Check if nodes are available
+        if (this._nodeTree.size() > 0) {
+            // Call _update
+            this._update(this._nodeTree.get(0));
+        }
     }
 
     /**
@@ -181,8 +184,11 @@ public final class LupusRuntimeWindow extends Canvas {
         // Clear the screen
         graphicsReference.clearRect(0, 0, this._windowWidth, this._windowHeight);
 
-        // Call the _update method
-        this._update();
+        // Check if nodes are available
+        if (this._nodeTree.size() > 0) {
+            // Call _update
+            this._update(this._nodeTree.get(0));
+        }
 
         // Iterate through the buffer
         for (int x = 0; x < this._pixelBufferArray.length; x++) {
@@ -243,14 +249,38 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
-     * Updates the {@link Canvas}.
+     * Recursively traverses through the node tree updating and drawing each
+     * component.
      *
+     * @param currentNode - The current node of the recursive method
      * @return {@link void}
      */
-    private void _update() {
-        // Iterate through the UI tree
-        for (final Node node : this._nodeTree) {
+    private void _update(final Node currentNode) {
+        // Get the child nodes of the current node
+        final Node[] childrenNodes = currentNode.getChildrenNodes();
+
+        // Is there any children nodes?
+        if (childrenNodes.length == 0) {
+            // Reached the end of the current tree
+
+            // Draw component
+
+            // Debug
+            System.out.println("Reached the end of the tree!");
+
+            // Return
             return;
         }
+
+        // Iterate through the children nodes
+        for (Node childNode : childrenNodes) {
+            // Call the update method
+            this._update(childNode);
+        }
+
+        // Draw component
+
+        // Debug
+        System.out.println("Component is done!");
     }
 }

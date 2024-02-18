@@ -66,7 +66,7 @@ public abstract class Application {
     /**
      * The {@code main} method for your application.
      *
-     * @param app - Lupus API
+     * @param app - Lupus API object
      * @return {@link void}
      */
     public void start(final LupusApp app) {
