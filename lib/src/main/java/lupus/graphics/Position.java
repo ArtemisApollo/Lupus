@@ -95,6 +95,34 @@ public class Position {
         this._y = value;
     }
 
+    /**
+     * Sets the {@link Position} object to the new specified {@link Position}
+     * object.
+     *
+     * @param newPosition - The new {@link Position} object
+     * @return {@link void}
+     */
+    public void setPosition(final Position newPosition) {
+        // Set X position
+        this._x = newPosition.getX();
+
+        // Set Y position
+        this._y = newPosition.getY();
+    }
+
+    /**
+     * Returns the a centered {@link Position} based off the current
+     * {@link Position} and size.
+     *
+     * @param currentPosition - The current position
+     * @param currentSize     - The current size
+     * @return {@link Position}
+     */
+    public Position centerPosition(final Position currentPosition, final Position currentSize) {
+        // Early return
+        return null;
+    }
+
     // Private Static Methods
 
     // Private Inherited Methods

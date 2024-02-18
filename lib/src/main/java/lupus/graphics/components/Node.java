@@ -4,6 +4,7 @@ package lupus.graphics.components;
 // Import Statements
 import java.util.ArrayList;
 import java.lang.IndexOutOfBoundsException;
+import lupus.graphics.Position;
 import lupus.input.LupusEventListener;
 
 // File Docstring
@@ -26,6 +27,8 @@ public abstract class Node extends LupusEventListener {
 
     // Private Variables
     private Node _parentNode = null;
+    private final Position _nodeSize = new Position(0, 0);
+    private final Position _nodePosition = new Position(0, 0);
     private final ArrayList<Node> _childrenNodes = new ArrayList<Node>();
 
     // Constructor
@@ -85,6 +88,74 @@ public abstract class Node extends LupusEventListener {
     public Node getParentNode() {
         // Return the parent node
         return this._parentNode;
+    }
+
+    /**
+     * Set the {@link Position} of the {@link Node} with the specified
+     * {@link Position} object.
+     *
+     * @param newPosition - The new {@link Position}
+     * @return {@link void}
+     */
+    public void setPosition(final Position newPosition) {
+        // Set the position to the new position object
+        this._nodePosition.setPosition(newPosition);
+    }
+
+    /**
+     * Set the {@link Position} of the {@link Node} with the specified {@code X} and
+     * {@code Y} values.
+     *
+     * @param x - The {@code X} value
+     * @param y - The {@code Y} value
+     * @return {@link void}
+     */
+    public void setPosition(final double x, final double y) {
+        // Set the position to the new specified location
+        this._nodePosition.setPosition(new Position(x, y));
+    }
+
+    /**
+     * Get the current {@link Position} of the {@link Node}.
+     *
+     * @return {@link Position}
+     */
+    public Position getPosition() {
+        // Return the current node position
+        return this._nodePosition;
+    }
+
+    /**
+     * Set the size of the {@link Node} to the new specified size.
+     *
+     * @param newSize - The new size
+     * @return {@link void}
+     */
+    public void setSize(final Position newSize) {
+        // Set the size to the new specified size
+        this._nodeSize.setPosition(newSize);
+    }
+
+    /**
+     * Set the size of the {@link Node} to the specified size values.
+     *
+     * @param x - The size in {@code X}
+     * @param y - The size in {@code Y}
+     * @return {@link void}
+     */
+    public void setSize(final double x, final double y) {
+        // Set the size to the new specified size
+        this._nodeSize.setPosition(new Position(x, y));
+    }
+
+    /**
+     * Returns the current size of the {@link Node}.
+     *
+     * @return {@link Position}
+     */
+    public Position getSize() {
+        // Return the current node size
+        return this._nodeSize;
     }
 
     // Private Static Methods
