@@ -2,8 +2,6 @@
 package lupus.core;
 
 // Import Statements
-import java.awt.Toolkit;
-import java.awt.AWTEvent;
 import java.lang.Exception;
 import lupus.Application;
 import lupus.core.LupusApp;
@@ -53,7 +51,7 @@ public final class LupusRuntime {
                     .newInstance((Object[]) null);
         } catch (Exception ex) {
             // Handle any exceptions
-            System.err.println("Runtime exception occurred!\n" + ex + "---");
+            System.err.println("Runtime exception occurred!\n" + ex + "\n---");
 
             // Early return
             return;
@@ -70,7 +68,6 @@ public final class LupusRuntime {
      */
     public void start() {
         // Instance the required components
-        final LupusEventListener lupusEventListener = new LupusEventListener();
         final LupusRuntimeWindow lupusRuntimeWindow = new LupusRuntimeWindow(1920, 1080);
 
         // Create a new LupusApp object
@@ -78,12 +75,6 @@ public final class LupusRuntime {
 
         // Register components
         lupusApp.registerWindowComponent(lupusRuntimeWindow);
-
-        // Listen to ALL events
-        Toolkit.getDefaultToolkit().addAWTEventListener(lupusEventListener, -1);
-
-        // Start the required components
-        // lupusRuntimeWindow.start();
 
         // Call the start method
         this._instancedApplicationReference.start(lupusApp);

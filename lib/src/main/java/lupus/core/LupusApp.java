@@ -65,10 +65,15 @@ public final class LupusApp {
 		 *
 		 * @param value - The new decorated state
 		 * @implNote This method will also internally invoke {@code setWindowVisibility}
-		 *           to hide and then show the window to avoid runtime errors
+		 *           and {@code getVisibilityState}
+		 *           to hide and then show(if applicable) the window to avoid runtime
+		 *           errors
 		 * @return {@link void}
 		 */
 		public void setDecorated(final boolean value) {
+			// Get the current visibility state
+			final boolean currentState = this.getVisibilityState();
+
 			// Call the setWindowVisibility implementation
 			this._window.setWindowVisibilityImpl(false);
 
@@ -76,7 +81,7 @@ public final class LupusApp {
 			this._window.setDecoratedImpl(value);
 
 			// Call the setWindowVisibility implementation
-			this._window.setWindowVisibilityImpl(true);
+			this._window.setWindowVisibilityImpl(currentState);
 		}
 
 		/**
@@ -99,6 +104,26 @@ public final class LupusApp {
 		public void addComponent(final Node component) {
 			// Call the addComponent implementation
 			this._window.addComponentImpl(component);
+		}
+
+		/**
+		 * Start the given window instance.
+		 *
+		 * @return {@link void}
+		 */
+		public void start() {
+			// Call the start implementation
+			this._window.startImpl();
+		}
+
+		/**
+		 * Returns the current visibility status of the window.
+		 *
+		 * @return {@link boolean}
+		 */
+		public boolean getVisibilityState() {
+			// Call the getVisibilityState implementation
+			return this._window.getVisibilityStateImpl();
 		}
 
 		// Public Inherited Methods
@@ -138,13 +163,12 @@ public final class LupusApp {
 	/**
 	 * Shows the {@link LupusRuntimeWindow}.
 	 *
-	 * @implNote This method will internally call {@code setWindowVisibility} to
-	 *           show the window
+	 * @implNote This method is a shorthand for {@code app.window.start}
 	 * @return {@link void}
 	 */
 	public void show() {
-		// Call setWindowVisibility
-		this.window.setWindowVisibility(true);
+		// Call the start method
+		this.window.start();
 	}
 
 	// Private Static Methods

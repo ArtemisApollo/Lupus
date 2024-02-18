@@ -5,11 +5,12 @@ package lupus;
 import java.lang.Override;
 import lupus.Application;
 import lupus.core.LupusApp;
+import lupus.graphics.components.buttons.Button;
 import org.junit.jupiter.api.Test;
 
 // File Docstring
 /**
- * A basic testing class for getting minimal window on screen.
+ * A basic testing class for getting a minimal window on screen.
  *
  * @author @MaxineToTheStars <https://github.com/MaxineToTheStars>
  */
@@ -42,18 +43,25 @@ public final class LupusAbstractApplicationClassTests extends Application {
 	}
 
 	// Public Inherited Methods
+	/**
+	 * Overridden start method
+	 */
 	@Override
-	// Start method
 	public void start(final LupusApp app) {
-		// Set undecorated
-		app.window.setDecorated(false);
+		// Create a new Button node
+		Button myButton = new Button();
+
+		// Add it to the node tree
+		app.window.addComponent(myButton);
 
 		// Show the window
 		app.show();
 	}
 
+	/**
+	 * Test launchApp method.
+	 */
 	@Test
-	// Test launchApp method
 	void testLaunchAppMethod() {
 		// Launch the app
 		LupusAbstractApplicationClassTests.launchApp(LupusAbstractApplicationClassTests.class, new String[0]);

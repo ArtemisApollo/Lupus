@@ -3,14 +3,14 @@ package lupus.graphics;
 
 // Import Statements
 import java.awt.Canvas;
+import java.awt.Toolkit;
 import java.awt.Graphics;
-import java.awt.Dimension;
 import javax.swing.JFrame;
+import java.awt.Dimension;
 import java.util.ArrayList;
 import lupus.core.LupusApp;
-import lupus.graphics.Pixel;
-import lupus.graphics.components.Node;
 import lupus.core.LupusApp.LupusWindow;
+import lupus.graphics.components.Node;
 
 // File Docstring
 /**
@@ -73,27 +73,39 @@ public final class LupusRuntimeWindow extends Canvas {
 
         // Add a reference to the Canvas
         this._runtimeWindowJFrame.add(this);
-
-        // Pack the frame
-        this._runtimeWindowJFrame.pack();
-
-        // Set location to center
-        this._runtimeWindowJFrame.setLocationRelativeTo(null);
     }
 
     // Public Static Methods
 
     // Public Inherited Methods
-    // /**
-    // * Internally invokes {@code setWindowVisibilityImpl} to show the
-    // * {@link LupusRuntimeWindow}.
-    // *
-    // * @return {@link void}
-    // */
-    // public void start() {
-    // // Set window visibility
-    // this.setWindowVisibilityImpl(true);
-    // }
+    /**
+     * Implementation of the {@code getVisibilityState} method found in the
+     * {@link LupusWindow} class.
+     *
+     * @return {@link boolean}
+     */
+    public boolean getVisibilityStateImpl() {
+        // Return visibility state
+        return this._runtimeWindowJFrame.isVisible();
+    }
+
+    /**
+     * Implementation of the {@code start} method found in the {@link LupusWindow}
+     * class.
+     *
+     * @implNote This method will invoke {@code setWindowVisibilityImpl}
+     * @return {@link void}
+     */
+    public void startImpl() {
+        // Pack the frame
+        this._runtimeWindowJFrame.pack();
+
+        // Set location to center
+        this._runtimeWindowJFrame.setLocationRelativeTo(null);
+
+        // Set visible
+        this.setWindowVisibilityImpl(true);
+    }
 
     /**
      * Implementation of the {@code addComponent} method found in the
@@ -130,8 +142,23 @@ public final class LupusRuntimeWindow extends Canvas {
      * @return {@link void}
      */
     public void setWindowVisibilityImpl(final boolean value) {
-        // Set visibility state
-        this._runtimeWindowJFrame.setVisible(value);
+        // Check if setting to visible
+        if (value == true) {
+            // Pack the frame
+            this._runtimeWindowJFrame.pack();
+
+            // Set visibility state
+            this._runtimeWindowJFrame.setVisible(value);
+        }
+
+        // Check if setting to hidden
+        if (value == false) {
+            // Set visibility state
+            this._runtimeWindowJFrame.setVisible(value);
+
+            // Dispose of the current JFrame
+            this._runtimeWindowJFrame.dispose();
+        }
     }
 
     /**
@@ -216,7 +243,10 @@ public final class LupusRuntimeWindow extends Canvas {
      * @return {@link void}
      */
     private void _update() {
-        // Early return
-        return;
+        // Iterate through the UI tree
+        for (Node node : this._nodeTree) {
+            Toolkit.getDefaultToolkit().addAWTEventListener(node, -1);
+            System.out.println(node.getClass().getName());
+        }
     }
 }

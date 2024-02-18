@@ -66,7 +66,7 @@ public final class LupusRuntimeLauncher {
 				new LupusRuntime(appClassReference, args).start();
 			} catch (Exception ex) {
 				// Handle any exceptions
-				System.err.println("Launcher exception occurred!\n" + ex + "---");
+				System.err.println("Launcher exception occurred!\n" + ex + "\n---");
 			} finally {
 				// Decrement the latch
 				synchronizationLatch.countDown();
@@ -85,7 +85,7 @@ public final class LupusRuntimeLauncher {
 			synchronizationLatch.await();
 		} catch (InterruptedException ex) {
 			// Throw exception
-			throw new RuntimeException("An unexpected exception occurred!\n" + ex + "---");
+			throw new RuntimeException("An unexpected exception occurred!\n" + ex + "\n---");
 		}
 	}
 
