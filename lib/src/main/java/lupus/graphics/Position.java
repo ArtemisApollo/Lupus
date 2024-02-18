@@ -73,6 +73,28 @@ public class Position {
         return this._y;
     }
 
+    /**
+     * Sets the {@code X} value to the specified value.
+     *
+     * @param value - The new {@code X} value
+     * @return {@link void}
+     */
+    public void setX(final double value) {
+        // Set the X value
+        this._x = value;
+    }
+
+    /**
+     * Sets the {@code Y} value to the specified value.
+     *
+     * @param value - The new {@code Y} value
+     * @return {@link void}
+     */
+    public void setY(final double value) {
+        // Set the Y value
+        this._y = value;
+    }
+
     // Private Static Methods
 
     // Private Inherited Methods

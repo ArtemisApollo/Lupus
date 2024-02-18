@@ -3,7 +3,6 @@ package lupus.graphics;
 
 // Import Statements
 import java.awt.Canvas;
-import java.awt.Toolkit;
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import java.awt.Dimension;
@@ -118,6 +117,9 @@ public final class LupusRuntimeWindow extends Canvas {
         // Add the component
         this._nodeTree.add(component);
 
+        // Register with the event queue
+        component.attachToEventQueue();
+
         // Update
         this._update();
     }
@@ -173,11 +175,14 @@ public final class LupusRuntimeWindow extends Canvas {
         this._runtimeWindowJFrame.setUndecorated(!value);
     }
 
-    @Override
     // Overridden from Canvas class. Handles the drawing.
+    @Override
     public void paint(final Graphics graphicsReference) {
         // Clear the screen
         graphicsReference.clearRect(0, 0, this._windowWidth, this._windowHeight);
+
+        // Call the _update method
+        this._update();
 
         // Iterate through the buffer
         for (int x = 0; x < this._pixelBufferArray.length; x++) {
@@ -244,9 +249,8 @@ public final class LupusRuntimeWindow extends Canvas {
      */
     private void _update() {
         // Iterate through the UI tree
-        for (Node node : this._nodeTree) {
-            Toolkit.getDefaultToolkit().addAWTEventListener(node, -1);
-            System.out.println(node.getClass().getName());
+        for (final Node node : this._nodeTree) {
+            return;
         }
     }
 }
