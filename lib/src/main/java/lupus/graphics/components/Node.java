@@ -2,10 +2,15 @@
 package lupus.graphics.components;
 
 // Import Statements
+// ----------------------------------------------------------------
 import java.util.ArrayList;
 import java.lang.IndexOutOfBoundsException;
+// ---
 import lupus.graphics.Position;
 import lupus.input.LupusEventListener;
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**

@@ -2,11 +2,17 @@
 package lupus.graphics;
 
 // Import Statements
+// ----------------------------------------------------------------
+
+// ---
 import lupus.graphics.Position;
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**
- * Similar to StyleSheets in Godot this handles the styling and look of UI
+ * Similar to StyleSheets in Godot, this handles the styling and look of UI
  * components.
  *
  * @author @MaxineToTheStars <https://github.com/MaxineToTheStars>
@@ -79,15 +85,58 @@ public final class WidgetStyle {
     // Public Variables
 
     // Private Variables
+    private Position _size;
+    private Position _position;
+    private WidgetType _widgetType;
 
     // Constructor
-    public WidgetStyle(final WidgetType widgetType, final Position startPosition, final Position size) {
-        // Code
+    /**
+     * Instances a new {@link WidgetStyle} object.
+     *
+     * @param widgetType - The {@link WidgetType}
+     * @param position   - The {@link Node}'s {@link Position}
+     * @param size       - The {@link Node}'s size
+     * @return {@link WidgetStyle}
+     */
+    public WidgetStyle(final WidgetType widgetType, final Position position, final Position size) {
+        // Set data
+        this._size = size;
+        this._position = position;
+        this._widgetType = widgetType;
     }
 
     // Public Static Methods
 
     // Public Inherited Methods
+    /**
+     * Returns the {@link Node}'s {@link WidgetType}.
+     *
+     * @return {@link WidgetType}
+     */
+    public WidgetType getWidgetType() {
+        // Return the widget type
+        return this._widgetType;
+    }
+
+    /**
+     * Returns the {@link Node}'s {@link Position}.
+     *
+     * @return {@link Position}
+     */
+    public Position getPosition() {
+        // Return node position
+        return this._position;
+    }
+
+    /**
+     * Returns the {@link Node}'s size.
+     *
+     * @return {@link Position}
+     */
+    public Position getSize() {
+        // Return node size
+        return this._size;
+    }
 
     // Private Static Methods
 

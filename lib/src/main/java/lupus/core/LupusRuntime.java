@@ -2,10 +2,15 @@
 package lupus.core;
 
 // Import Statements
+// ----------------------------------------------------------------
 import java.lang.Exception;
+// ---
 import lupus.Application;
 import lupus.core.LupusApp;
 import lupus.graphics.LupusRuntimeWindow;
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**

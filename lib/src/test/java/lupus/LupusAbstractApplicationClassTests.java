@@ -2,11 +2,15 @@
 package lupus;
 
 // Import Statements
+// ----------------------------------------------------------------
 import java.lang.Override;
+// ---
 import lupus.Application;
 import lupus.core.LupusApp;
 import lupus.graphics.components.buttons.Button;
+// ---
 import org.junit.jupiter.api.Test;
+// ----------------------------------------------------------------
 
 // File Docstring
 /**
@@ -50,6 +54,10 @@ public final class LupusAbstractApplicationClassTests extends Application {
 	public void start(final LupusApp app) {
 		// Create a new Button node
 		final Button myRootButton = new Button();
+
+		// Edit some properties
+		myRootButton.setPosition(500, 250);
+		myRootButton.setSize(50, 100);
 
 		// Add it to the node tree
 		app.window.addComponent(myRootButton);

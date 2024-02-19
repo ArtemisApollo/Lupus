@@ -2,9 +2,15 @@
 package lupus.input;
 
 // Import Statements
+// ----------------------------------------------------------------
 import java.awt.Toolkit;
 import java.awt.AWTEvent;
 import java.awt.event.AWTEventListener;
+// ---
+
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**

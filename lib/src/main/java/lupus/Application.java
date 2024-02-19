@@ -2,11 +2,16 @@
 package lupus;
 
 // Import Statements
+// ----------------------------------------------------------------
 import java.lang.RuntimeException;
 import java.lang.IllegalStateException;
+// ---
 import lupus.core.LupusApp;
 import lupus.core.LupusRuntime;
 import lupus.core.LupusRuntimeLauncher;
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**

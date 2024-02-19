@@ -2,14 +2,25 @@
 package lupus.graphics;
 
 // Import Statements
+// ----------------------------------------------------------------
 import java.awt.Canvas;
+import java.lang.Object;
 import java.awt.Graphics;
 import javax.swing.JFrame;
 import java.awt.Dimension;
+import java.lang.Exception;
 import java.util.ArrayList;
+import java.lang.reflect.Method;
+// ---
 import lupus.core.LupusApp;
-import lupus.core.LupusApp.LupusWindow;
+import lupus.graphics.Position;
+import lupus.graphics.WidgetStyle;
 import lupus.graphics.components.Node;
+import lupus.core.LupusApp.LupusWindow;
+import lupus.graphics.WidgetStyle.WidgetType;
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**
@@ -57,7 +68,7 @@ public final class LupusRuntimeWindow extends Canvas {
         this._pixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][this._MAXIMIN_Z_LEVEL];
         this._fillPixelBufferArray();
 
-        // Instance a new UI tree
+        // Instance a new node tree
         this._nodeTree = new ArrayList<Node>();
 
         // Instance a new JFrame
@@ -263,9 +274,78 @@ public final class LupusRuntimeWindow extends Canvas {
 
         // Is there any children nodes?
         if (childrenNodes.length == 0) {
-            // Reached the end of the current tree
+            /**
+             * The recursive function has reached the last member(node) of the current tree.
+             * Draw the current component and return.
+             */
 
-            // Draw component
+            // Create a variable to store the draw call
+            Method drawMethod;
+
+            // Try to make a reference to the draw method
+            try {
+                // Make a reference to the draw method
+                drawMethod = currentNode.getClass().getMethod("draw", (Class<?>[]) null);
+            } catch (Exception ex) {
+                // Handle exception
+                System.err.println("(L1) Rendering exception occurred!\n" + ex + "\n---");
+
+                // Early return
+                return;
+            }
+
+            // Create a variable to store the widget style
+            WidgetStyle widgetStyle;
+
+            // Try to retrieve the widget style
+            try {
+                // Retrieve the widget style
+                widgetStyle = (WidgetStyle) drawMethod.invoke(currentNode, (Object[]) null);
+            } catch (Exception ex) {
+                // Handle exception
+                System.err.println("(L2) Rendering exception occurred!\n" + ex + "\n---");
+
+                // Early return
+                return;
+            }
+
+            // Draw the component based on its widget type
+            switch (widgetStyle.getWidgetType().getStringValue()) {
+                case "BUTTON":
+                    // Current component is a Button
+                    // Looking back at this code I still have no clue why I must start from Y(WIDTH)
+                    // then go to X(HEIGHT)
+
+                    // Get the button position
+                    final Position buttonPosition = widgetStyle.getPosition();
+
+                    // Get the button size
+                    final Position buttonSize = widgetStyle.getSize();
+
+                    // Get the length on the X plane
+                    final int combinedX = (int) (buttonPosition.getX() + buttonSize.getX());
+
+                    // Get the length on the Y plane
+                    final int combinedY = (int) (buttonPosition.getY() + buttonSize.getY());
+
+                    // Iterate along the Y(WIDTH) axis and make sure we do not go OOB
+                    for (int y = (int) buttonPosition.getY(); y < combinedY
+                            && y < this._pixelBufferArray[0].length; y++) {
+
+                        // Iterate along the X(HEIGHT) and make sure we do not go OOB
+                        for (int x = (int) buttonPosition.getX(); x < combinedX
+                                && x < this._pixelBufferArray.length; x++) {
+
+                            // Insert the pixel data
+                            this._pixelBufferArray[x][y][this._MAXIMIN_Z_LEVEL - 1] = new Pixel(125, 125, 230);
+                        }
+                    }
+
+                    // Break
+                    break;
+                default:
+                    break;
+            }
 
             // Debug
             System.out.println("Reached the end of the tree!");

@@ -2,9 +2,15 @@
 package lupus.core;
 
 // Import Statements
+// ----------------------------------------------------------------
+
+// ---
 import lupus.Application;
 import lupus.graphics.components.Node;
 import lupus.graphics.LupusRuntimeWindow;
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**

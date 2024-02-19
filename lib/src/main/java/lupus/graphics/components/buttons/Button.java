@@ -2,7 +2,13 @@
 package lupus.graphics.components.buttons;
 
 // Import Statements
+// ----------------------------------------------------------------
+
+// ---
 import lupus.graphics.components.buttons.BaseButton;
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**

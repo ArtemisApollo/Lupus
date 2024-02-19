@@ -2,11 +2,17 @@
 package lupus.graphics.components.buttons;
 
 // Import Statements
+// ----------------------------------------------------------------
 import java.awt.AWTEvent;
 import java.awt.event.MouseEvent;
+// ---
 import lupus.graphics.Position;
 import lupus.graphics.WidgetStyle;
 import lupus.graphics.components.Node;
+import lupus.graphics.WidgetStyle.WidgetType;
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**
@@ -105,7 +111,8 @@ public abstract class BaseButton extends Node {
      * @return {@link WidgetStyle}
      */
     public WidgetStyle draw() {
-        return null;
+        // Return a new widget style
+        return new WidgetStyle(WidgetType.BUTTON, getPosition(), getSize());
     }
 
     // Private Static Methods

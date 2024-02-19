@@ -2,8 +2,14 @@
 package lupus.graphics;
 
 // Import Statements
+// ----------------------------------------------------------------
 import java.awt.Color;
 import java.lang.IllegalArgumentException;
+// ---
+
+// ---
+
+// ----------------------------------------------------------------
 
 // File Docstring
 /**
