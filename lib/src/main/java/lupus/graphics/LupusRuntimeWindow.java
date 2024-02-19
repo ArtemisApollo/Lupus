@@ -200,11 +200,11 @@ public final class LupusRuntimeWindow extends Canvas {
         }
 
         // Iterate through the buffer
-        for (int x = 0; x < this._pixelBufferArray.length; x++) {
-            for (int y = 0; y < this._pixelBufferArray[x].length; y++) {
-                for (int zIndex = 0; zIndex < this._pixelBufferArray[x][y].length; zIndex++) {
+        for (int y = 0; y < this._pixelBufferArray.length; y++) {
+            for (int x = 0; x < this._pixelBufferArray[y].length; x++) {
+                for (int zIndex = 0; zIndex < this._pixelBufferArray[y][x].length; zIndex++) {
                     // Get the selected pixel
-                    final Pixel currentPixel = this._pixelBufferArray[x][y][zIndex];
+                    final Pixel currentPixel = this._pixelBufferArray[y][x][zIndex];
 
                     // Null check
                     if (currentPixel == null) {
@@ -215,7 +215,7 @@ public final class LupusRuntimeWindow extends Canvas {
                     graphicsReference.setColor(currentPixel.getPixelValue());
 
                     // Draw the Pixel
-                    graphicsReference.fillRect(y, x, 1, 1);
+                    graphicsReference.fillRect(x, y, 1, 1);
                 }
             }
         }
@@ -281,56 +281,13 @@ public final class LupusRuntimeWindow extends Canvas {
             // Draw the component based on its widget type
             switch (widgetStyle.getWidgetType().getStringValue()) {
                 case "BUTTON":
-                    // Current component is a Button
-                    // Looking back at this code I still have no clue why I must start from Y(WIDTH)
-                    // then go to X(HEIGHT)
+                    // Draw the button
+                    this._drawButton(widgetStyle, currentNode);
 
-                    // Get the button position
-                    final Position buttonPosition = currentNode.getPosition();
-
-                    // Get the button size
-                    final Position buttonSize = currentNode.getSize();
-
-                    // Get the length on the X plane
-                    final int combinedX = (int) (buttonPosition.getX() + buttonSize.getX());
-
-                    // Get the length on the Y plane
-                    final int combinedY = (int) (buttonPosition.getY() + buttonSize.getY());
-
-                    // Create the top and bottom sides of the button
-                    for (int y = (int) buttonPosition.getY(); y <= combinedY
-                            && y < this._pixelBufferArray[0].length; y++) {
-                        // Fill in the pixel buffer
-                        this._pixelBufferArray[combinedX][y][widgetStyle.getZIndex()] = new Pixel(
-                                widgetStyle.getBorderColor());
-                        this._pixelBufferArray[(int) buttonPosition.getX()][y][widgetStyle.getZIndex()] = new Pixel(
-                                widgetStyle.getBorderColor());
-                    }
-
-                    // Create the left and right sides of the button
-                    for (int x = (int) buttonPosition.getX(); x <= combinedX
-                            && x < this._pixelBufferArray.length; x++) {
-                        // Fill in the pixel buffer
-                        this._pixelBufferArray[x][combinedY][widgetStyle.getZIndex()] = new Pixel(
-                                widgetStyle.getBorderColor());
-                        this._pixelBufferArray[x][(int) buttonPosition.getY()][widgetStyle.getZIndex()] = new Pixel(
-                                widgetStyle.getBorderColor());
-                    }
-
-                    // Fill the button
-                    for (int y = (int) (buttonPosition.getY() + 1); y < combinedY
-                            && y < this._pixelBufferArray[0].length; y++) {
-                        for (int x = (int) (buttonPosition.getX() + 1); x < combinedX
-                                && x < this._pixelBufferArray.length; x++) {
-                            // Fill in the pixel buffer
-                            this._pixelBufferArray[x][y][widgetStyle.getZIndex()] = new Pixel(
-                                    widgetStyle.getFillColor());
-                        }
-                    }
-
-                    // Break
+                    // Break from case
                     break;
                 default:
+                    // Break from case by default
                     break;
             }
 
@@ -347,9 +304,70 @@ public final class LupusRuntimeWindow extends Canvas {
             this._update(childNode);
         }
 
-        // Draw component
+        // Retrieve the node's widget style
+        final WidgetStyle widgetStyle = currentNode.getWidgetStyle();
+
+        // Draw the component based on its widget type
+        switch (widgetStyle.getWidgetType().getStringValue()) {
+            case "BUTTON":
+                // Draw the button
+                this._drawButton(widgetStyle, currentNode);
+
+                // Break from case
+                break;
+            default:
+                // Break from case by default
+                break;
+        }
 
         // Debug
         System.out.println("Component is done!");
+    }
+
+    /**
+     * Draws a {@code Button} by modifying the PixelBufferArray.
+     *
+     * @param widgetStyle - The {@link WidgetStyle}
+     * @param currentNode - The current {@link Node}
+     * @implNote Looking back at this code I still have no clue why I must start
+     *           from Y(WIDTH) then go to X(HEIGHT)
+     * @return {@link void}
+     */
+    private void _drawButton(final WidgetStyle widgetStyle, final Node currentNode) {
+        // Get the button position
+        final Position buttonPosition = currentNode.getPosition();
+
+        // Get the button size
+        final Position buttonSize = currentNode.getSize();
+
+        // Get the length on the X plane
+        final int combinedX = (int) (buttonPosition.getX() + buttonSize.getX());
+
+        // Get the length on the Y plane
+        final int combinedY = (int) (buttonPosition.getY() + buttonSize.getY());
+
+        // Create the top and bottom sides of the button
+        for (int x = (int) buttonPosition.getX(); x <= combinedX && x < this._pixelBufferArray[0].length; x++) {
+            // Fill in the pixel buffer
+            this._pixelBufferArray[combinedY][x][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getBorderColor());
+            this._pixelBufferArray[(int) buttonPosition.getY()][x][widgetStyle.getZIndex()] = new Pixel(
+                    widgetStyle.getBorderColor());
+        }
+
+        // Create the left and right sides of the button
+        for (int y = (int) buttonPosition.getY(); y <= combinedY && y < this._pixelBufferArray.length; y++) {
+            // Fill in the pixel buffer
+            this._pixelBufferArray[y][combinedX][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getBorderColor());
+            this._pixelBufferArray[y][(int) buttonPosition.getX()][widgetStyle.getZIndex()] = new Pixel(
+                    widgetStyle.getBorderColor());
+        }
+
+        // Fill the button
+        for (int x = (int) (buttonPosition.getX() + 1); x < combinedX && x < this._pixelBufferArray[0].length; x++) {
+            for (int y = (int) (buttonPosition.getY() + 1); y < combinedY && y < this._pixelBufferArray.length; y++) {
+                // Fill in the pixel buffer
+                this._pixelBufferArray[y][x][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getFillColor());
+            }
+        }
     }
 }

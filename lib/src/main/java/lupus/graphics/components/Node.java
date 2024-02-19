@@ -36,11 +36,11 @@ public abstract class Node extends LupusEventListener {
 
     // Private Variables
     private Node _parentNode = null;
+    private Position _nodeSize = null;
     private Color _nodeFillColor = null;
     private Color _nodeBorderColor = null;
+    private Position _nodePosition = null;
     private WidgetType _nodeWidgetType = null;
-    private final Position _nodeSize = new Position(0, 0);
-    private final Position _nodePosition = new Position(0, 0);
     private final ArrayList<Node> _childrenNodes = new ArrayList<Node>();
 
     // Constructor
@@ -110,6 +110,12 @@ public abstract class Node extends LupusEventListener {
      * @return {@link void}
      */
     public void setPosition(final Position newPosition) {
+        // Null check
+        if (this._nodePosition == null) {
+            // Set position as new position
+            this._nodePosition = newPosition;
+        }
+
         // Set the position to the new position object
         this._nodePosition.setPosition(newPosition);
     }
@@ -123,6 +129,12 @@ public abstract class Node extends LupusEventListener {
      * @return {@link void}
      */
     public void setPosition(final double x, final double y) {
+        // Null check
+        if (this._nodePosition == null) {
+            // Instance a new position object
+            this._nodePosition = new Position(x, y);
+        }
+
         // Set the position to the new specified location
         this._nodePosition.setPosition(new Position(x, y));
     }
@@ -151,6 +163,12 @@ public abstract class Node extends LupusEventListener {
      * @return {@link void}
      */
     public void setSize(final Position newSize) {
+        // Null check
+        if (this._nodeSize == null) {
+            // Set size as new size
+            this._nodeSize = newSize;
+        }
+
         // Set the size to the new specified size
         this._nodeSize.setPosition(newSize);
     }
@@ -163,6 +181,12 @@ public abstract class Node extends LupusEventListener {
      * @return {@link void}
      */
     public void setSize(final double x, final double y) {
+        // Null check
+        if (this._nodeSize == null) {
+            // Instance a new position object
+            this._nodeSize = new Position(x, y);
+        }
+
         // Set the size to the new specified size
         this._nodeSize.setPosition(new Position(x, y));
     }
@@ -271,9 +295,9 @@ public abstract class Node extends LupusEventListener {
         final WidgetStyle componentWidgetStyle = new WidgetStyle(this._nodeWidgetType);
 
         // Populate with data
-        componentWidgetStyle.setFillColor(this._nodeFillColor);
-        componentWidgetStyle.setWidgetType(this._nodeWidgetType);
-        componentWidgetStyle.setBorderColor(this._nodeBorderColor);
+        componentWidgetStyle.setFillColor(this.getFillColor());
+        componentWidgetStyle.setWidgetType(this.getWidgetType());
+        componentWidgetStyle.setBorderColor(this.getBorderColor());
         componentWidgetStyle.setZIndex(LupusRuntimeWindow._MAXIMIN_Z_LEVEL - 1);
 
         // Return

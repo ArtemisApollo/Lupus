@@ -56,11 +56,22 @@ public final class LupusAbstractApplicationClassTests extends Application {
 		// Create a new Button node
 		final Button myRootButton = new Button();
 
-		// Edit some properties
-		myRootButton.setSize(100, 100);
-		myRootButton.setPosition(200, 250);
-		myRootButton.setBorderColor(new Color(0, 0, 0));
-		myRootButton.setFillColor(new Color(155, 125, 220));
+		// Create a new child Button node
+		final Button myChildButton = new Button();
+
+		// Edit some root properties
+		myRootButton.setSize(250, 150);
+		myRootButton.setPosition(475, 750);
+		myRootButton.setBorderColor(new Color(255, 255, 255));
+		myRootButton.setFillColor(new Color(192, 196, 36));
+
+		// Add child
+		myRootButton.addChildNode(myChildButton);
+
+		// Edit some child properties
+		myChildButton.setSize((myChildButton.getSize().getX() - 100), (myChildButton.getSize().getY() - 50));
+		myChildButton.setPosition((myChildButton.getPosition().getX() + 375), (myChildButton.getPosition().getY()));
+		myChildButton.setFillColor(new Color(0, 0, 0));
 
 		// Add it to the node tree
 		app.window.addComponent(myRootButton);
