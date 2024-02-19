@@ -3,9 +3,9 @@ package lupus.graphics;
 
 // Import Statements
 // ----------------------------------------------------------------
-
+import java.awt.Color;
 // ---
-import lupus.graphics.Position;
+
 // ---
 
 // ----------------------------------------------------------------
@@ -85,23 +85,31 @@ public final class WidgetStyle {
     // Public Variables
 
     // Private Variables
-    private Position _size;
-    private Position _position;
+    private int _zIndex;
+    private Color _fillColor;
+    private Color _borderColor;
     private WidgetType _widgetType;
 
     // Constructor
     /**
      * Instances a new {@link WidgetStyle} object.
      *
-     * @param widgetType - The {@link WidgetType}
-     * @param position   - The {@link Node}'s {@link Position}
-     * @param size       - The {@link Node}'s size
      * @return {@link WidgetStyle}
      */
-    public WidgetStyle(final WidgetType widgetType, final Position position, final Position size) {
-        // Set data
-        this._size = size;
-        this._position = position;
+    public WidgetStyle() {
+        // Early return
+        return;
+    }
+
+    /**
+     * Instances a new {@link WidgetStyle} object of the specified
+     * {@link WidgetType}.
+     *
+     * @param widgetType - The {@link WidgetType}
+     * @return {@link WidgetStyle}
+     */
+    public WidgetStyle(final WidgetType widgetType) {
+        // Set the widget type
         this._widgetType = widgetType;
     }
 
@@ -109,35 +117,88 @@ public final class WidgetStyle {
 
     // Public Inherited Methods
     /**
-     * Returns the {@link Node}'s {@link WidgetType}.
+     * Sets the fill {@link Color} property.
+     *
+     * @param color - The fill {@link Color}
+     * @return {@link void}
+     */
+    public void setFillColor(final Color color) {
+        // Set fill color
+        this._fillColor = color;
+    }
+
+    /**
+     * Sets the border {@link Color} property.
+     *
+     * @param color - The border {@link Color}
+     * @return {@link void}
+     */
+    public void setBorderColor(final Color color) {
+        // Set border color
+        this._borderColor = color;
+    }
+
+    /**
+     * Sets the {@link WidgetType}.
+     *
+     * @param widgetType - The {@link WidgetType}
+     * @return {@link void}
+     */
+    public void setWidgetType(final WidgetType widgetType) {
+        // Set widget type
+        this._widgetType = widgetType;
+    }
+
+    /**
+     * Returns the fill {@link Color} property.
+     *
+     * @return {@link Color}
+     */
+    public Color getFillColor() {
+        // Return the fill color
+        return this._fillColor;
+    }
+
+    /**
+     * Returns the border {@link Color} property.
+     *
+     * @return {@link Color}
+     */
+    public Color getBorderColor() {
+        // Return the border color
+        return this._borderColor;
+    }
+
+    /**
+     * Returns the {@link WidgetType}.
      *
      * @return {@link WidgetType}
      */
     public WidgetType getWidgetType() {
-        // Return the widget type
+        // Return the widget tYpe
         return this._widgetType;
     }
 
     /**
-     * Returns the {@link Node}'s {@link Position}.
+     * Set the Z index property.
      *
-     * @return {@link Position}
+     * @param index - The index
+     * @return {@link void}
      */
-    public Position getPosition() {
-        // Return node position
-        return this._position;
+    public void setZIndex(final int index) {
+        // Set the Z index
+        this._zIndex = index;
     }
 
     /**
-     * Returns the {@link Node}'s size.
+     * Returns the Z index property.
      *
-     * @return {@link Position}
+     * @return {@link int}
      */
-    public Position getSize() {
-        // Return node size
-        return this._size;
+    public int getZIndex() {
+        // Return the Z index
+        return this._zIndex;
     }
-
     // Private Static Methods
 
     // Private Inherited Methods

@@ -3,6 +3,7 @@ package lupus;
 
 // Import Statements
 // ----------------------------------------------------------------
+import java.awt.Color;
 import java.lang.Override;
 // ---
 import lupus.Application;
@@ -56,8 +57,10 @@ public final class LupusAbstractApplicationClassTests extends Application {
 		final Button myRootButton = new Button();
 
 		// Edit some properties
-		myRootButton.setPosition(500, 250);
-		myRootButton.setSize(50, 100);
+		myRootButton.setSize(100, 100);
+		myRootButton.setPosition(200, 250);
+		myRootButton.setBorderColor(new Color(0, 0, 0));
+		myRootButton.setFillColor(new Color(155, 125, 220));
 
 		// Add it to the node tree
 		app.window.addComponent(myRootButton);
