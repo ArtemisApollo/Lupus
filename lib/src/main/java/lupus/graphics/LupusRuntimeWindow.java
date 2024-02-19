@@ -178,7 +178,9 @@ public final class LupusRuntimeWindow extends Canvas {
         this._runtimeWindowJFrame.setUndecorated(!value);
     }
 
-    // Overridden from Canvas class. Handles the drawing.
+    /**
+     * Overridden from Canvas class. Handles the drawing.
+     */
     @Override
     public void paint(final Graphics graphicsReference) {
         // Clear the screen
