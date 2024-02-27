@@ -134,11 +134,8 @@ public final class LupusRuntimeWindow extends Canvas {
         // Register with the event queue
         component.attachToEventQueue();
 
-        // Iterate through the node tree
-        for (Node node : this._nodeTree) {
-            // Update the node
-            this._update(node);
-        }
+        // Update the node tree
+        this._updateTree();
     }
 
     /**
@@ -193,7 +190,8 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
-     * Overridden from Canvas class. Handles the drawing.
+     * Overridden from {@link Canvas} class. Handles the drawing portion of
+     * {@code Lupus}.
      *
      * @return {@link void}
      */
@@ -240,13 +238,26 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
+     * Iterates through the node tree and calls {@code _updateNode}.
+     *
+     * @return {@link void}
+     */
+    private void _updateTree() {
+        // Iterate through the node tree
+        for (Node node : this._nodeTree) {
+            // Call _updateNode
+            this._updateNode(node);
+        }
+    }
+
+    /**
      * Recursively traverses through the {@code currentNode}'s node tree updating
      * and drawing each component.
      *
      * @param currentNode - The current node of the recursive method
      * @return {@link void}
      */
-    private void _update(final Node currentNode) {
+    private void _updateNode(final Node currentNode) {
         // Get current node's children
         final Node[] childrenNodes = currentNode.getChildrenNodes();
 
@@ -256,7 +267,7 @@ public final class LupusRuntimeWindow extends Canvas {
         // Draw the node's children
         for (Node childNode : childrenNodes) {
             // Call the update method
-            this._update(childNode);
+            this._updateNode(childNode);
         }
 
         // Draw the component based on its widget type
@@ -277,12 +288,12 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
-     * Draws a {@code Button} by modifying the PixelBufferArray.
+     * Draws a {@code Button} by modifying the {@code PixelBufferArray}.
      *
      * @param widgetStyle - The {@link WidgetStyle}
      * @param currentNode - The current {@link Node}
      * @implNote Looking back at this code I still have no clue why I must start
-     *           from Y(WIDTH) then go to X(HEIGHT)
+     *           from Y {@code (WIDTH)} then go to X {@code (HEIGHT)}
      * @return {@link void}
      */
     private void _drawButton(final WidgetStyle widgetStyle, final Node currentNode) {
