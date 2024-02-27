@@ -87,6 +87,7 @@ public final class WidgetStyle {
     // Private Variables
     private int _zIndex;
     private Color _fillColor;
+    private Color _hoverColor;
     private Color _borderColor;
     private WidgetType _widgetType;
 
@@ -139,6 +140,17 @@ public final class WidgetStyle {
     }
 
     /**
+     * Sets the hover {@link Color} property.
+     *
+     * @param color - The hover {@link Color}
+     * @return {@link void}
+     */
+    public void setHoverColor(final Color color) {
+        // Set hover color
+        this._hoverColor = color;
+    }
+
+    /**
      * Sets the {@link WidgetType}.
      *
      * @param widgetType - The {@link WidgetType}
@@ -167,6 +179,16 @@ public final class WidgetStyle {
     public Color getBorderColor() {
         // Return the border color
         return this._borderColor;
+    }
+
+    /**
+     * Returns the hover {@link Color} property.
+     *
+     * @return {@link Color}
+     */
+    public Color getHoverColor() {
+        // Return the hover color
+        return this._hoverColor;
     }
 
     /**

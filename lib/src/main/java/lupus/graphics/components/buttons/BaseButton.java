@@ -3,6 +3,7 @@ package lupus.graphics.components.buttons;
 
 // Import Statements
 // ----------------------------------------------------------------
+import java.awt.Color;
 import java.awt.AWTEvent;
 import java.awt.event.MouseEvent;
 // ---
@@ -31,6 +32,7 @@ public abstract class BaseButton extends Node {
     // Public Variables
 
     // Private Variables
+    private boolean _isHovered = (this.getProperty("input.isHovered") == null) ? false : true;
 
     // Constructor
     public BaseButton() {
@@ -42,6 +44,11 @@ public abstract class BaseButton extends Node {
 
         // Set style info
         this.setWidgetType(WidgetType.BUTTON);
+
+        // Set default colors
+        this.setBorderColor(new Color(0, 0, 0));
+        this.setFillColor(new Color(145, 150, 150));
+        this.setHoverColor(new Color(175, 180, 180));
     }
 
     // Public Static Methods
@@ -67,6 +74,18 @@ public abstract class BaseButton extends Node {
      * @return {@link void}
      */
     public void onHovered(final MouseEvent event) {
+        // Early return
+        return;
+    }
+
+    /**
+     * Triggered when the button is {@code un-hovered}.
+     *
+     * @param event - The {@link MouseEvent} object
+     * @see {@link MouseEvent}
+     * @return {@link void}
+     */
+    public void onUnHovered(final MouseEvent event) {
         // Early return
         return;
     }
@@ -104,6 +123,45 @@ public abstract class BaseButton extends Node {
     public void input(final AWTEvent event) {
         // Convert to MouseEvent
         final MouseEvent mouseEvent = (MouseEvent) event;
+
+        // Get the mouse position
+        final Position mousePosition = new Position(mouseEvent.getX(), mouseEvent.getY());
+
+        // Bounds checking
+        final boolean withinXBounds = ((mousePosition.getX() >= this.getPosition().getX())
+                && (mousePosition.getX() <= (this.getPosition().getX() + this.getSize().getX())));
+        final boolean withinYBounds = ((mousePosition.getY() >= this.getPosition().getY())
+                && (mousePosition.getY() <= (this.getPosition().getY() + this.getSize().getY())));
+        final boolean withinXYBounds = (withinXBounds && withinYBounds);
+
+        // Pass the input to its' child nodes
+        for (Node node : this.getChildrenNodes()) {
+            // Call input
+            node.input(mouseEvent);
+        }
+
+        // Check if the mouse is within the bounds
+        if (withinXYBounds == true) {
+            // Set hovered value
+            this._isHovered = true;
+
+            // Set hovered property
+            this.setProperty("input.isHovered", this._isHovered);
+
+            // Call hovered
+            this.onHovered(mouseEvent);
+        }
+
+        if (withinXYBounds == false && this._isHovered == true) {
+            // Set hovered value
+            this._isHovered = false;
+
+            // Set hovered property
+            this.setProperty("input.isHovered", this._isHovered);
+
+            // Call unHovered
+            this.onUnHovered(mouseEvent);
+        }
     }
 
     // Private Static Methods

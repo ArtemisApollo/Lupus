@@ -92,7 +92,7 @@ public final class Pixel {
 
     // Public Inherited Methods
     /**
-     * Returns the {@link Pixel}'s pixel value.
+     * Returns the {@link Pixel}'s {@link Color} value.
      *
      * @return {@link Color}
      */
@@ -110,6 +110,17 @@ public final class Pixel {
     public void setPixelValue(final Color value) {
         // Set the pixel value
         this._pixelValue = value;
+    }
+
+    /**
+     * Compares two {@link Pixel} objects to see if they are the same.
+     *
+     * @param pixel - The {@link Pixel} to compare
+     * @return {@link boolean}
+     */
+    public boolean equals(final Pixel pixel) {
+        // Check if the current pixel is equal to the specific pixel
+        return this.getPixelValue().equals(pixel.getPixelValue());
     }
 
     // Private Static Methods

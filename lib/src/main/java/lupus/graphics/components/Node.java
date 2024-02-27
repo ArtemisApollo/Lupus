@@ -4,6 +4,8 @@ package lupus.graphics.components;
 // Import Statements
 // ----------------------------------------------------------------
 import java.awt.Color;
+import java.lang.Object;
+import java.util.HashMap;
 import java.util.ArrayList;
 import java.lang.IndexOutOfBoundsException;
 // ---
@@ -38,10 +40,12 @@ public abstract class Node extends LupusEventListener {
     private Node _parentNode = null;
     private Position _nodeSize = null;
     private Color _nodeFillColor = null;
+    private Color _nodeHoverColor = null;
     private Color _nodeBorderColor = null;
     private Position _nodePosition = null;
     private WidgetType _nodeWidgetType = null;
     private final ArrayList<Node> _childrenNodes = new ArrayList<Node>();
+    private final HashMap<String, Object> _propertyMap = new HashMap<String, Object>();
 
     // Constructor
 
@@ -231,6 +235,17 @@ public abstract class Node extends LupusEventListener {
     }
 
     /**
+     * Set the hover {@link Color} for the {@link Node}.
+     *
+     * @param color - The hover {@link Color}
+     * @return {@link void}
+     */
+    public void setHoverColor(final Color color) {
+        // Set the hover color
+        this._nodeHoverColor = color;
+    }
+
+    /**
      * Get the {@link Node}'s fill {@link Color}. If {@code null} returns the fill
      * {@link Color} of its' parent.
      *
@@ -262,6 +277,23 @@ public abstract class Node extends LupusEventListener {
 
         // Return the border color
         return this._nodeBorderColor;
+    }
+
+    /**
+     * Get the {@link Node}'s hover {@link Color}. If {@code null} returns the
+     * hover {@link Color} of its' parent.
+     *
+     * @return {@link Color}
+     */
+    public Color getHoverColor() {
+        // Null check
+        if (this._nodeHoverColor == null && this.getParentNode() != null) {
+            // Return the hover color of the parent node
+            return this.getParentNode().getHoverColor();
+        }
+
+        // Return the hover color
+        return this._nodeHoverColor;
     }
 
     /**
@@ -297,11 +329,35 @@ public abstract class Node extends LupusEventListener {
         // Populate with data
         componentWidgetStyle.setFillColor(this.getFillColor());
         componentWidgetStyle.setWidgetType(this.getWidgetType());
+        componentWidgetStyle.setHoverColor(this.getHoverColor());
         componentWidgetStyle.setBorderColor(this.getBorderColor());
         componentWidgetStyle.setZIndex(LupusRuntimeWindow._MAXIMIN_Z_LEVEL - 1);
 
         // Return
         return componentWidgetStyle;
+    }
+
+    /**
+     * Set a property value that can be shared and access between abstractions.
+     *
+     * @param key   - The key value
+     * @param value - The value
+     * @return {@link void}
+     */
+    public void setProperty(final String key, final Object value) {
+        // Set key-value property
+        this._propertyMap.put(key, value);
+    }
+
+    /**
+     * Returns the value at the specified key value or {@code null} if not found.
+     *
+     * @param key - The key
+     * @return {@link Object}
+     */
+    public Object getProperty(final String key) {
+        // Return value at key
+        return this._propertyMap.get(key);
     }
 
     // Private Static Methods

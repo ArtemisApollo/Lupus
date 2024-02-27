@@ -3,6 +3,7 @@ package lupus.graphics;
 
 // Import Statements
 // ----------------------------------------------------------------
+import java.awt.Color;
 import java.awt.Canvas;
 import java.awt.Graphics;
 import javax.swing.JFrame;
@@ -10,6 +11,7 @@ import java.awt.Dimension;
 import java.util.ArrayList;
 // ---
 import lupus.core.LupusApp;
+import lupus.utils.LupusMath;
 import lupus.graphics.Position;
 import lupus.graphics.WidgetStyle;
 import lupus.graphics.components.Node;
@@ -60,8 +62,13 @@ public final class LupusRuntimeWindow extends Canvas {
         this._windowHeight = windowHeight;
         this._windowDimensions = new Dimension(this._windowWidth, this._windowHeight);
 
-        // Instance a new PixelBufferArray and fill it
-        this._pixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][this._MAXIMIN_Z_LEVEL];
+        // Instance a new PixelBufferArray
+        this._pixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
+
+        // Debugging: Fill buffer with specific pixel
+        // this._fillPixelBufferArray(new Pixel(125, 125, 220));
+
+        // Fill with empty white pixels
         this._fillPixelBufferArray();
 
         // Instance a new node tree
@@ -127,10 +134,10 @@ public final class LupusRuntimeWindow extends Canvas {
         // Register with the event queue
         component.attachToEventQueue();
 
-        // Check if nodes are available
-        if (this._nodeTree.size() > 0) {
-            // Call _update
-            this._update(this._nodeTree.get(0));
+        // Iterate through the node tree
+        for (Node node : this._nodeTree) {
+            // Update the node
+            this._update(node);
         }
     }
 
@@ -187,38 +194,13 @@ public final class LupusRuntimeWindow extends Canvas {
 
     /**
      * Overridden from Canvas class. Handles the drawing.
+     *
+     * @return {@link void}
      */
     @Override
     public void paint(final Graphics graphicsReference) {
-        // Clear the screen
-        graphicsReference.clearRect(0, 0, this._windowWidth, this._windowHeight);
-
-        // Check if nodes are available
-        if (this._nodeTree.size() > 0) {
-            // Call _update
-            this._update(this._nodeTree.get(0));
-        }
-
-        // Iterate through the buffer
-        for (int y = 0; y < this._pixelBufferArray.length; y++) {
-            for (int x = 0; x < this._pixelBufferArray[y].length; x++) {
-                for (int zIndex = 0; zIndex < this._pixelBufferArray[y][x].length; zIndex++) {
-                    // Get the selected pixel
-                    final Pixel currentPixel = this._pixelBufferArray[y][x][zIndex];
-
-                    // Null check
-                    if (currentPixel == null) {
-                        continue;
-                    }
-
-                    // Get the Pixel's color value
-                    graphicsReference.setColor(currentPixel.getPixelValue());
-
-                    // Draw the Pixel
-                    graphicsReference.fillRect(x, y, 1, 1);
-                }
-            }
-        }
+        // Early return
+        return;
     }
 
     // Private Static Methods
@@ -258,54 +240,24 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
-     * Recursively traverses through the node tree updating and drawing each
-     * component.
+     * Recursively traverses through the {@code currentNode}'s node tree updating
+     * and drawing each component.
      *
      * @param currentNode - The current node of the recursive method
      * @return {@link void}
      */
     private void _update(final Node currentNode) {
-        // Get the child nodes of the current node
+        // Get current node's children
         final Node[] childrenNodes = currentNode.getChildrenNodes();
 
-        // Is there any children nodes?
-        if (childrenNodes.length == 0) {
-            /**
-             * The recursive function has reached the last member(node) of the current tree.
-             * Draw the current component and return.
-             */
+        // Retrieve the current node's widget style
+        final WidgetStyle widgetStyle = currentNode.getWidgetStyle();
 
-            // Retrieve the node's widget style
-            final WidgetStyle widgetStyle = currentNode.getWidgetStyle();
-
-            // Draw the component based on its widget type
-            switch (widgetStyle.getWidgetType().getStringValue()) {
-                case "BUTTON":
-                    // Draw the button
-                    this._drawButton(widgetStyle, currentNode);
-
-                    // Break from case
-                    break;
-                default:
-                    // Break from case by default
-                    break;
-            }
-
-            // Debug
-            System.out.println("Reached the end of the tree!");
-
-            // Return
-            return;
-        }
-
-        // Iterate through the children nodes
+        // Draw the node's children
         for (Node childNode : childrenNodes) {
             // Call the update method
             this._update(childNode);
         }
-
-        // Retrieve the node's widget style
-        final WidgetStyle widgetStyle = currentNode.getWidgetStyle();
 
         // Draw the component based on its widget type
         switch (widgetStyle.getWidgetType().getStringValue()) {
@@ -321,7 +273,7 @@ public final class LupusRuntimeWindow extends Canvas {
         }
 
         // Debug
-        System.out.println("Component is done!");
+        System.out.println("Component drawn!");
     }
 
     /**
@@ -365,9 +317,41 @@ public final class LupusRuntimeWindow extends Canvas {
         // Fill the button
         for (int x = (int) (buttonPosition.getX() + 1); x < combinedX && x < this._pixelBufferArray[0].length; x++) {
             for (int y = (int) (buttonPosition.getY() + 1); y < combinedY && y < this._pixelBufferArray.length; y++) {
+                // Get hovered status
+                final boolean isHovered = (currentNode.getProperty("input.isHovered") == null) ? false : true;
+
                 // Fill in the pixel buffer
-                this._pixelBufferArray[y][x][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getFillColor());
+                this._pixelBufferArray[y][x][widgetStyle.getZIndex()] = (isHovered == false)
+                        ? new Pixel(widgetStyle.getFillColor())
+                        : new Pixel(widgetStyle.getHoverColor());
             }
         }
+    }
+
+    /**
+     * Returns the length of the {@code Y} buffer in the {@code pixelBufferArray}.
+     *
+     * @return {@link int}
+     */
+    private int _getYBufferLength() {
+        return this._pixelBufferArray.length;
+    }
+
+    /**
+     * Returns the length of the {@code X} buffer in the {@code pixelBufferArray}.
+     *
+     * @return {@link int}
+     */
+    private int _getXBufferLength() {
+        return this._pixelBufferArray[0].length;
+    }
+
+    /**
+     * Returns the length of the {@code Z} buffer in the {@code pixelBufferArray}.
+     *
+     * @return {@link int}
+     */
+    private int _getZBufferLength() {
+        return this._pixelBufferArray[0][0].length;
     }
 }

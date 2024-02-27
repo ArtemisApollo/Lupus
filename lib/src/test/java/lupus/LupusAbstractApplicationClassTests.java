@@ -5,6 +5,7 @@ package lupus;
 // ----------------------------------------------------------------
 import java.awt.Color;
 import java.lang.Override;
+import java.awt.event.MouseEvent;
 // ---
 import lupus.Application;
 import lupus.core.LupusApp;
@@ -57,13 +58,21 @@ public final class LupusAbstractApplicationClassTests extends Application {
 		final Button myRootButton = new Button();
 
 		// Create a new child Button node
-		final Button myChildButton = new Button();
+		final Button myChildButton = new Button() {
+			@Override
+			public void onHovered(final MouseEvent mouseEvent) {
+				System.out.println("The child was hovered!");
+			}
+
+			@Override
+			public void onUnHovered(final MouseEvent mouseEvent) {
+				System.out.println("The child was un-hovered!");
+			}
+		};
 
 		// Edit some root properties
 		myRootButton.setSize(250, 150);
 		myRootButton.setPosition(475, 750);
-		myRootButton.setBorderColor(new Color(255, 255, 255));
-		myRootButton.setFillColor(new Color(192, 196, 36));
 
 		// Add child
 		myRootButton.addChildNode(myChildButton);
@@ -71,7 +80,6 @@ public final class LupusAbstractApplicationClassTests extends Application {
 		// Edit some child properties
 		myChildButton.setSize((myChildButton.getSize().getX() - 100), (myChildButton.getSize().getY() - 50));
 		myChildButton.setPosition((myChildButton.getPosition().getX() + 375), (myChildButton.getPosition().getY()));
-		myChildButton.setFillColor(new Color(0, 0, 0));
 
 		// Add it to the node tree
 		app.window.addComponent(myRootButton);
