@@ -61,7 +61,7 @@ public final class Pixel {
      * @param blue  - The blue channel value (0-255)
      * @throws IllegalArgumentException if {@code red}, {@code green}, or
      *                                  {@code blue} are outside of the range 0 to
-     *                                  255, inclusive
+     *                                  255, inclusive.
      * @return {@link Pixel}
      */
     public Pixel(final int red, final int green, final int blue) throws IllegalArgumentException {
@@ -80,7 +80,7 @@ public final class Pixel {
      * @throws IllegalArgumentException if {@code red}, {@code green},
      *                                  {@code blue}, or {@code alpha} are outside
      *                                  of the range 0 to
-     *                                  255, inclusive
+     *                                  255, inclusive.
      * @return {@link Pixel}
      */
     public Pixel(final int red, final int green, final int blue, final int alpha) throws IllegalArgumentException {

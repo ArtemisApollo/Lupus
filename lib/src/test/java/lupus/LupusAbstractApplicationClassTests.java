@@ -51,6 +51,8 @@ public final class LupusAbstractApplicationClassTests extends Application {
 	// Public Inherited Methods
 	/**
 	 * Overridden start method.
+	 *
+	 * @return {@link void}
 	 */
 	@Override
 	public void start(final LupusApp app) {
@@ -90,6 +92,8 @@ public final class LupusAbstractApplicationClassTests extends Application {
 
 	/**
 	 * Test launchApp method.
+	 *
+	 * @return {@link void}
 	 */
 	@Test
 	void testLaunchAppMethod() {

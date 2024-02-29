@@ -55,10 +55,10 @@ public abstract class Application {
      *                          class
      * @param args              - Command line arguments
      * @throws IllegalStateException if the {@link LupusRuntimeLauncher} was invoked
-     *                               again after running {@code launchApp}
+     *                               again after running {@code launchApp}.
      *
      * @throws RuntimeException      if the {@link LupusRuntime} runs into an
-     *                               unexpected error while running
+     *                               unexpected error while running.
      * @return {@link void}
      */
     public static void launchApp(final Class<? extends Application> appClassReference, final String[] args)

@@ -66,7 +66,7 @@ public final class LupusRuntime {
 
     // Public Inherited Methods
     /**
-     * Handles the starting and instancing of required components in Lupus.
+     * Handles the starting and instancing of required components in {@code Lupus}.
      *
      * @return {@link void}
      */

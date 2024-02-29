@@ -71,7 +71,7 @@ public abstract class Node extends LupusEventListener {
      *
      * @param index - The index of the child
      * @throws IndexOutOfBoundsException if the index is out of range
-     *                                   ({@code index < 0 || index >= size()})
+     *                                   ({@code index < 0 || index >= size()}).
      * @return {@link Node}
      */
     public Node getChildNode(final int index) throws IndexOutOfBoundsException {

@@ -106,7 +106,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * Implementation of the {@code start} method found in the {@link LupusWindow}
      * class.
      *
-     * @implNote This method will invoke {@code setWindowVisibilityImpl}
+     * @implNote This method will invoke {@code setWindowVisibilityImpl}.
      * @return {@link void}
      */
     public void startImpl() {
@@ -197,8 +197,106 @@ public final class LupusRuntimeWindow extends Canvas {
      */
     @Override
     public void paint(final Graphics graphicsReference) {
-        // Early return
-        return;
+        // Debugging
+        System.out.println("Clearing screen!");
+
+        // Clear the screen
+        graphicsReference.clearRect(0, 0, this._windowWidth, this._windowHeight);
+
+        // Debugging
+        System.out.println("Update node tree");
+
+        // Update the node tree
+        this._updateTree();
+
+        // Debugging
+        System.out.println("Drawing...");
+
+        // Iterate through the Z buffer starting at 0
+        for (int zIndex = 0; zIndex < this._getZBufferLength(); zIndex++) {
+            // Declare and set pixel difference
+            int pixelDifferenceX = -1;
+            int pixelDifferenceY = -1;
+
+            // Declare and set start positions
+            int startPositionX = 1;
+            int startPositionY = 0;
+
+            // Iterate through the Y buffer starting at 0
+            for (int yIndex = startPositionY; yIndex < this._getYBufferLength(); yIndex++) {
+
+                // Iterate through the X buffer starting at 1
+                for (int xIndex = startPositionX; xIndex < this._getXBufferLength(); xIndex++) {
+                    // Get the current pixel at xIndex
+                    final Pixel currentPixel = this._pixelBufferArray[yIndex][xIndex][zIndex];
+
+                    // Get the previous pixel at xIndex - 1
+                    final Pixel previousPixel = this._pixelBufferArray[yIndex][(xIndex - 1)][zIndex];
+
+                    // Check if either pixel is null
+                    if (currentPixel == null || previousPixel == null) {
+                        // Skip to next pixel
+                        continue;
+                    }
+
+                    // Conditionals
+                    final boolean isCurrentPixelEqualToPreviousPixel = currentPixel.equals(previousPixel);
+                    final boolean isGreaterThanOrEqualToXDifference = (pixelDifferenceX == -1) ? false
+                            : (xIndex >= pixelDifferenceX);
+                    final boolean isLessThanXDifference = (pixelDifferenceX == -1) ? false
+                            : (xIndex < pixelDifferenceX);
+
+                    // Check conditional
+                    if (isCurrentPixelEqualToPreviousPixel == true && isGreaterThanOrEqualToXDifference == false) {
+                        // Skip to next pixel
+                        continue;
+                    }
+
+                    // Set the new pixel deference position
+                    pixelDifferenceX = (pixelDifferenceX == -1) ? xIndex : pixelDifferenceX;
+                    pixelDifferenceY = (pixelDifferenceY == -1) ? yIndex : pixelDifferenceY;
+
+                    // Check if the current xIndex is less than the pixel difference
+                    if (isGreaterThanOrEqualToXDifference == true) {
+                        // Change the Y
+                        yIndex = (int) LupusMath.clamp(yIndex + 1, 0, (this._getYBufferLength() - 1));
+
+                        // Reset the X
+                        xIndex = 0;
+
+                        // Next iteration
+                        continue;
+                    }
+
+                    // Check if the current xIndex is less than the pixel difference
+                    if (isLessThanXDifference == true) {
+                        // Get the pixel value
+                        final Color pixelValue = previousPixel.getPixelValue();
+
+                        // Set draw color
+                        graphicsReference.setColor(pixelValue);
+
+                        // Draw
+                        graphicsReference.fillRect(startPositionX, startPositionY, pixelDifferenceX, yIndex);
+
+                        // Set the new start position
+                        startPositionX = pixelDifferenceX;
+                        startPositionY = pixelDifferenceY;
+
+                        // Set the new index
+                        xIndex = startPositionX;
+                        yIndex = startPositionY;
+
+                        // Reset the difference
+                        pixelDifferenceX = -1;
+                        pixelDifferenceY = -1;
+
+                        // Next iteration
+                        continue;
+                    }
+                }
+            }
+        }
     }
 
     // Private Static Methods
@@ -293,7 +391,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * @param widgetStyle - The {@link WidgetStyle}
      * @param currentNode - The current {@link Node}
      * @implNote Looking back at this code I still have no clue why I must start
-     *           from Y {@code (WIDTH)} then go to X {@code (HEIGHT)}
+     *           from Y {@code (WIDTH)} then go to X {@code (HEIGHT)}.
      * @return {@link void}
      */
     private void _drawButton(final WidgetStyle widgetStyle, final Node currentNode) {
