@@ -44,7 +44,8 @@ public final class LupusRuntimeWindow extends Canvas {
     private int _windowWidth;
     private int _windowHeight;
     private Dimension _windowDimensions;
-    private Pixel[][][] _pixelBufferArray;
+    private Pixel[][][] _firstFramePixelBufferArray;
+    private Pixel[][][] _secondFramePixelBufferArray;
     private final ArrayList<Node> _nodeTree;
     private final JFrame _runtimeWindowJFrame;
 
@@ -62,14 +63,17 @@ public final class LupusRuntimeWindow extends Canvas {
         this._windowHeight = windowHeight;
         this._windowDimensions = new Dimension(this._windowWidth, this._windowHeight);
 
-        // Instance a new PixelBufferArray
-        this._pixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
+        // Instance the frame buffers
+        this._firstFramePixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
+        this._secondFramePixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
 
         // Debugging: Fill buffer with specific pixel
-        this._fillPixelBufferArray(new Pixel(125, 125, 220));
+        this._fillFrameBufferArray(this._firstFramePixelBufferArray, new Pixel(125, 125, 225));
+        this._fillFrameBufferArray(this._secondFramePixelBufferArray, new Pixel(125, 125, 225));
 
         // Fill with empty white pixels
-        // this._fillPixelBufferArray();
+        // this._fillFrameBufferArray(this._firstFramePixelBufferArray);
+        // this._fillFrameBufferArray(this._secondFramePixelBufferArray);
 
         // Instance a new node tree
         this._nodeTree = new ArrayList<Node>();
@@ -106,7 +110,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * Implementation of the {@code start} method found in the {@link LupusWindow}
      * class.
      *
-     * @implNote This method will invoke {@code setWindowVisibilityImpl}.
+     * @implNote This method will invoke internally {@code setWindowVisibilityImpl}
      * @return {@link void}
      */
     public void startImpl() {
@@ -135,7 +139,7 @@ public final class LupusRuntimeWindow extends Canvas {
         component.attachToEventQueue();
 
         // Update the node tree
-        this._updateTree();
+        this._updateNodeTree();
     }
 
     /**
@@ -197,141 +201,51 @@ public final class LupusRuntimeWindow extends Canvas {
      */
     @Override
     public void paint(final Graphics graphicsReference) {
-        // Debugging
-        System.out.println("Clearing screen!");
-
-        // Clear the screen
-        graphicsReference.clearRect(0, 0, this._windowWidth, this._windowHeight);
-
-        // Debugging
-        System.out.println("Update node tree");
-
-        // Update the node tree
-        this._updateTree();
-
-        // Debugging
-        System.out.println("Drawing...");
-
-        // Iterate through the Z buffer starting at 0
-        for (int zIndex = 0; zIndex < this._getZBufferLength(); zIndex++) {
-            // Declare and set pixel difference
-            int pixelDifferenceX = -1;
-            int pixelDifferenceY = -1;
-
-            // Declare and set start positions
-            int startPositionX = 1;
-            int startPositionY = 0;
-
-            // Iterate through the Y buffer starting at 0
-            for (int yIndex = startPositionY; yIndex < this._getYBufferLength(); yIndex++) {
-
-                // Iterate through the X buffer starting at 1
-                for (int xIndex = startPositionX; xIndex < this._getXBufferLength(); xIndex++) {
-                    // Get the current pixel at xIndex
-                    final Pixel currentPixel = this._pixelBufferArray[yIndex][xIndex][zIndex];
-
-                    // Get the previous pixel at xIndex - 1
-                    final Pixel previousPixel = this._pixelBufferArray[yIndex][(xIndex - 1)][zIndex];
-
-                    // Check if either pixel is null
-                    if (currentPixel == null || previousPixel == null) {
-                        // Skip to next pixel
-                        continue;
-                    }
-
-                    // Conditionals
-                    final boolean isCurrentPixelEqualToPreviousPixel = currentPixel.equals(previousPixel);
-                    final boolean isGreaterThanOrEqualToXDifference = (pixelDifferenceX == -1) ? false
-                            : (xIndex >= pixelDifferenceX);
-                    final boolean isLessThanXDifference = (pixelDifferenceX == -1) ? false
-                            : (xIndex < pixelDifferenceX);
-                    final boolean isAtTheEndOfTheBuffer = (yIndex == this._getYBufferLength() - 1);
-
-                    // Check conditional
-                    if (isCurrentPixelEqualToPreviousPixel == true && isGreaterThanOrEqualToXDifference == false
-                            && isAtTheEndOfTheBuffer == false) {
-                        // Skip to next pixel
-                        continue;
-                    }
-
-                    // Set the new pixel deference position
-                    pixelDifferenceX = (pixelDifferenceX == -1) ? xIndex : pixelDifferenceX;
-                    pixelDifferenceY = (pixelDifferenceY == -1) ? yIndex : pixelDifferenceY;
-
-                    // Check if the current xIndex is less than the pixel difference
-                    if (isGreaterThanOrEqualToXDifference == true && isAtTheEndOfTheBuffer == false) {
-                        // Change the Y
-                        yIndex = (int) LupusMath.clamp(yIndex + 1, 0, (this._getYBufferLength() - 1));
-
-                        // Reset the X
-                        xIndex = 0;
-
-                        // Next iteration
-                        continue;
-                    }
-
-                    // Check if the current xIndex is less than the pixel difference
-                    if (isLessThanXDifference == true || isAtTheEndOfTheBuffer == true) {
-                        // Get the pixel value
-                        final Color pixelValue = previousPixel.getPixelValue();
-
-                        // Set draw color
-                        graphicsReference.setColor(pixelValue);
-
-                        // Draw
-                        graphicsReference.fillRect(startPositionX, startPositionY, pixelDifferenceX, yIndex);
-
-                        // Set the new start position
-                        startPositionX = pixelDifferenceX;
-                        startPositionY = pixelDifferenceY;
-
-                        // Set the new index
-                        xIndex = startPositionX;
-                        yIndex = startPositionY;
-
-                        // Reset the difference
-                        pixelDifferenceX = -1;
-                        pixelDifferenceY = -1;
-
-                        // Next iteration
-                        continue;
-                    }
-                }
-            }
-        }
+        // Early return
+        return;
     }
 
     // Private Static Methods
 
     // Private Inherited Methods
     /**
-     * Fills the {@link Pixel}BufferArray with white {@link Pixel} objects.
+     * Fills the specified {@code Pixel}BufferArray with {@code white} {@link Pixel}
+     * objects.
      *
+     * @param frameBuffer - The specific frame buffer to fill
      * @return {@link void}
      */
-    private void _fillPixelBufferArray() {
-        for (int x = 0; x < this._pixelBufferArray.length; x++) {
-            for (int y = 0; y < this._pixelBufferArray[x].length; y++) {
-                for (int zIndex = 0; zIndex < this._pixelBufferArray[x][y].length; zIndex++) {
+    private void _fillFrameBufferArray(final Pixel[][][] frameBuffer) {
+        // Iterate through the Y index
+        for (int yIndex = 0; yIndex < frameBuffer.length; yIndex++) {
+            // Iterate through the X index
+            for (int xIndex = 0; xIndex < frameBuffer[yIndex].length; xIndex++) {
+                // Iterate through the Z index
+                for (int zIndex = 0; zIndex < frameBuffer[yIndex][xIndex].length; zIndex++) {
                     // Fill with an empty pixel
-                    this._pixelBufferArray[x][y][zIndex] = new Pixel();
+                    frameBuffer[xIndex][yIndex][zIndex] = new Pixel();
                 }
             }
         }
     }
 
     /**
-     * Fills the {@link Pixel}BufferArray with the specified {@link Pixel} object.
+     * Fills the specified {@code Pixel}BufferArray with the specified {@link Pixel}
+     * object.
      *
-     * @param pixel - The {@link Pixel} to use
+     * @param frameBuffer - The specific frame buffer to fill
+     * @param pixel       - The {@link Pixel} object to use
      * @return {@link void}
      */
-    private void _fillPixelBufferArray(final Pixel pixel) {
-        for (int x = 0; x < this._pixelBufferArray.length; x++) {
-            for (int y = 0; y < this._pixelBufferArray[x].length; y++) {
-                for (int zIndex = 0; zIndex < this._pixelBufferArray[x][y].length; zIndex++) {
+    private void _fillFrameBufferArray(final Pixel[][][] frameBuffer, final Pixel pixel) {
+        // Iterate through the Y index
+        for (int yIndex = 0; yIndex < frameBuffer.length; yIndex++) {
+            // Iterate through the X index
+            for (int xIndex = 0; xIndex < frameBuffer[yIndex].length; xIndex++) {
+                // Iterate through the Z index
+                for (int zIndex = 0; zIndex < frameBuffer[yIndex][xIndex].length; zIndex++) {
                     // Fill with an empty pixel
-                    this._pixelBufferArray[x][y][zIndex] = pixel;
+                    frameBuffer[xIndex][yIndex][zIndex] = pixel;
                 }
             }
         }
@@ -342,7 +256,7 @@ public final class LupusRuntimeWindow extends Canvas {
      *
      * @return {@link void}
      */
-    private void _updateTree() {
+    private void _updateNodeTree() {
         // Iterate through the node tree
         for (Node node : this._nodeTree) {
             // Call _updateNode
@@ -393,7 +307,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * @param widgetStyle - The {@link WidgetStyle}
      * @param currentNode - The current {@link Node}
      * @implNote Looking back at this code I still have no clue why I must start
-     *           from Y {@code (WIDTH)} then go to X {@code (HEIGHT)}.
+     *           from Y {@code (WIDTH)} then go to X {@code (HEIGHT)}
      * @return {@link void}
      */
     private void _drawButton(final WidgetStyle widgetStyle, final Node currentNode) {
@@ -410,59 +324,37 @@ public final class LupusRuntimeWindow extends Canvas {
         final int combinedY = (int) (buttonPosition.getY() + buttonSize.getY());
 
         // Create the top and bottom sides of the button
-        for (int x = (int) buttonPosition.getX(); x <= combinedX && x < this._pixelBufferArray[0].length; x++) {
+        for (int x = (int) buttonPosition.getX(); x <= combinedX
+                && x < this._secondFramePixelBufferArray[0].length; x++) {
             // Fill in the pixel buffer
-            this._pixelBufferArray[combinedY][x][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getBorderColor());
-            this._pixelBufferArray[(int) buttonPosition.getY()][x][widgetStyle.getZIndex()] = new Pixel(
+            this._secondFramePixelBufferArray[combinedY][x][widgetStyle.getZIndex()] = new Pixel(
+                    widgetStyle.getBorderColor());
+            this._secondFramePixelBufferArray[(int) buttonPosition.getY()][x][widgetStyle.getZIndex()] = new Pixel(
                     widgetStyle.getBorderColor());
         }
 
         // Create the left and right sides of the button
-        for (int y = (int) buttonPosition.getY(); y <= combinedY && y < this._pixelBufferArray.length; y++) {
+        for (int y = (int) buttonPosition.getY(); y <= combinedY && y < this._secondFramePixelBufferArray.length; y++) {
             // Fill in the pixel buffer
-            this._pixelBufferArray[y][combinedX][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getBorderColor());
-            this._pixelBufferArray[y][(int) buttonPosition.getX()][widgetStyle.getZIndex()] = new Pixel(
+            this._secondFramePixelBufferArray[y][combinedX][widgetStyle.getZIndex()] = new Pixel(
+                    widgetStyle.getBorderColor());
+            this._secondFramePixelBufferArray[y][(int) buttonPosition.getX()][widgetStyle.getZIndex()] = new Pixel(
                     widgetStyle.getBorderColor());
         }
 
         // Fill the button
-        for (int x = (int) (buttonPosition.getX() + 1); x < combinedX && x < this._pixelBufferArray[0].length; x++) {
-            for (int y = (int) (buttonPosition.getY() + 1); y < combinedY && y < this._pixelBufferArray.length; y++) {
+        for (int x = (int) (buttonPosition.getX() + 1); x < combinedX
+                && x < this._secondFramePixelBufferArray[0].length; x++) {
+            for (int y = (int) (buttonPosition.getY() + 1); y < combinedY
+                    && y < this._secondFramePixelBufferArray.length; y++) {
                 // Get hovered status
                 final boolean isHovered = (currentNode.getProperty("input.isHovered") == null) ? false : true;
 
                 // Fill in the pixel buffer
-                this._pixelBufferArray[y][x][widgetStyle.getZIndex()] = (isHovered == false)
+                this._secondFramePixelBufferArray[y][x][widgetStyle.getZIndex()] = (isHovered == false)
                         ? new Pixel(widgetStyle.getFillColor())
                         : new Pixel(widgetStyle.getHoverColor());
             }
         }
-    }
-
-    /**
-     * Returns the length of the {@code Y} buffer in the {@code pixelBufferArray}.
-     *
-     * @return {@link int} - The {@code Y} length of the buffer
-     */
-    private int _getYBufferLength() {
-        return this._pixelBufferArray.length;
-    }
-
-    /**
-     * Returns the length of the {@code X} buffer in the {@code pixelBufferArray}.
-     *
-     * @return {@link int} - The {@code X} length of the buffer
-     */
-    private int _getXBufferLength() {
-        return this._pixelBufferArray[0].length;
-    }
-
-    /**
-     * Returns the length of the {@code Z} buffer in the {@code pixelBufferArray}.
-     *
-     * @return {@link int} - The {@code Z} length of the buffer
-     */
-    private int _getZBufferLength() {
-        return this._pixelBufferArray[0][0].length;
     }
 }
