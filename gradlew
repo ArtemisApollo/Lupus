@@ -69,14 +69,14 @@ app_path=$0
 
 # Need this for daisy-chained symlinks.
 while
-    APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
-    [ -h "$app_path" ]
+APP_HOME=${app_path%"${app_path##*/}"}  # leaves a trailing /; empty if no leading path
+[ -h "$app_path" ]
 do
     ls=$( ls -ld "$app_path" )
     link=${ls#*' -> '}
     case $link in             #(
-      /*)   app_path=$link ;; #(
-      *)    app_path=$APP_HOME$link ;;
+        /*)   app_path=$link ;; #(
+        *)    app_path=$APP_HOME$link ;;
     esac
 done
 
@@ -106,10 +106,10 @@ msys=false
 darwin=false
 nonstop=false
 case "$( uname )" in                #(
-  CYGWIN* )         cygwin=true  ;; #(
-  Darwin* )         darwin=true  ;; #(
-  MSYS* | MINGW* )  msys=true    ;; #(
-  NONSTOP* )        nonstop=true ;;
+    CYGWIN* )         cygwin=true  ;; #(
+    Darwin* )         darwin=true  ;; #(
+    MSYS* | MINGW* )  msys=true    ;; #(
+    NONSTOP* )        nonstop=true ;;
 esac
 
 CLASSPATH=$APP_HOME/gradle/wrapper/gradle-wrapper.jar
@@ -127,7 +127,7 @@ if [ -n "$JAVA_HOME" ] ; then
         die "ERROR: JAVA_HOME is set to an invalid directory: $JAVA_HOME
 
 Please set the JAVA_HOME variable in your environment to match the
-location of your Java installation."
+        location of your Java installation."
     fi
 else
     JAVACMD=java
@@ -136,25 +136,25 @@ else
         die "ERROR: JAVA_HOME is not set and no 'java' command could be found in your PATH.
 
 Please set the JAVA_HOME variable in your environment to match the
-location of your Java installation."
+        location of your Java installation."
     fi
 fi
 
 # Increase the maximum file descriptors if we can.
 if ! "$cygwin" && ! "$darwin" && ! "$nonstop" ; then
     case $MAX_FD in #(
-      max*)
-        # In POSIX sh, ulimit -H is undefined. That's why the result is checked to see if it worked.
-        # shellcheck disable=SC3045
-        MAX_FD=$( ulimit -H -n ) ||
+        max*)
+            # In POSIX sh, ulimit -H is undefined. That's why the result is checked to see if it worked.
+            # shellcheck disable=SC3045
+            MAX_FD=$( ulimit -H -n ) ||
             warn "Could not query maximum file descriptor limit"
     esac
     case $MAX_FD in  #(
-      '' | soft) :;; #(
-      *)
-        # In POSIX sh, ulimit -n is undefined. That's why the result is checked to see if it worked.
-        # shellcheck disable=SC3045
-        ulimit -n "$MAX_FD" ||
+        '' | soft) :;; #(
+        *)
+            # In POSIX sh, ulimit -n is undefined. That's why the result is checked to see if it worked.
+            # shellcheck disable=SC3045
+            ulimit -n "$MAX_FD" ||
             warn "Could not set maximum file descriptor limit to $MAX_FD"
     esac
 fi
@@ -177,12 +177,12 @@ if "$cygwin" || "$msys" ; then
     # Now convert the arguments - kludge to limit ourselves to /bin/sh
     for arg do
         if
-            case $arg in                                #(
-              -*)   false ;;                            # don't mess with options #(
-              /?*)  t=${arg#/} t=/${t%%/*}              # looks like a POSIX filepath
-                    [ -e "$t" ] ;;                      #(
-              *)    false ;;
-            esac
+        case $arg in                                #(
+            -*)   false ;;                            # don't mess with options #(
+            /?*)  t=${arg#/} t=/${t%%/*}              # looks like a POSIX filepath
+            [ -e "$t" ] ;;                      #(
+            *)    false ;;
+        esac
         then
             arg=$( cygpath --path --ignore --mixed "$arg" )
         fi
@@ -209,10 +209,10 @@ DEFAULT_JVM_OPTS='"-Xmx64m" "-Xms64m"'
 #   * put everything else in single quotes, so that it's not re-expanded.
 
 set -- \
-        "-Dorg.gradle.appname=$APP_BASE_NAME" \
-        -classpath "$CLASSPATH" \
-        org.gradle.wrapper.GradleWrapperMain \
-        "$@"
+"-Dorg.gradle.appname=$APP_BASE_NAME" \
+-classpath "$CLASSPATH" \
+org.gradle.wrapper.GradleWrapperMain \
+"$@"
 
 # Stop when "xargs" is not available.
 if ! command -v xargs >/dev/null 2>&1
@@ -244,6 +244,6 @@ eval "set -- $(
         xargs -n1 |
         sed ' s~[^-[:alnum:]+,./:=@_]~\\&~g; ' |
         tr '\n' ' '
-    )" '"$@"'
+)" '"$@"'
 
 exec "$JAVACMD" "$@"

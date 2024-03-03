@@ -47,10 +47,10 @@ public final class LupusRuntimeLauncher {
 	 * @param appClassReference - A reference to the inheriting {@link Application}
 	 *                          class
 	 * @param args              - Command line arguments
-	 * @throws IllegalStateException if the {@link LupusRuntimeLauncher} was invoked
-	 *                               again after running {@code launchApp}.
-	 * @throws RuntimeException      if the {@link LupusRuntime} runs into an
-	 *                               unexpected error while running.
+	 * @throws IllegalStateException If the {@link LupusRuntimeLauncher} was invoked
+	 *                               again after running {@code launchApp}
+	 * @throws RuntimeException      If the {@link LupusRuntime} runs into an
+	 *                               unexpected error while running
 	 * @return {@link void}
 	 */
 	public static void launchAppImpl(final Class<? extends Application> appClassReference, final String[] args)

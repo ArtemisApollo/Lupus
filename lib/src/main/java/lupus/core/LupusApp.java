@@ -73,7 +73,7 @@ public final class LupusApp {
 		 * @implNote This method will also internally invoke {@code setWindowVisibility}
 		 *           and {@code getVisibilityState}
 		 *           to hide and then show(if applicable) the window to avoid runtime
-		 *           errors.
+		 *           errors
 		 * @return {@link void}
 		 */
 		public void setDecorated(final boolean value) {
@@ -125,7 +125,8 @@ public final class LupusApp {
 		/**
 		 * Returns the current visibility status of the window.
 		 *
-		 * @return {@link boolean}
+		 * @return {@link boolean} - The visibility status of the
+		 *         {@link LupusRuntimeWindow}
 		 */
 		public boolean getVisibilityState() {
 			// Call the getVisibilityState implementation
@@ -169,7 +170,7 @@ public final class LupusApp {
 	/**
 	 * Shows the {@link LupusRuntimeWindow}.
 	 *
-	 * @implNote This method is a shorthand for {@code app.window.start}.
+	 * @implNote This method is a shorthand for {@code app.window.start}
 	 * @return {@link void}
 	 */
 	public void show() {

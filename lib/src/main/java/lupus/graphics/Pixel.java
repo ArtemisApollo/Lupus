@@ -13,7 +13,7 @@ import java.lang.IllegalArgumentException;
 
 // File Docstring
 /**
- * Representation of an onscreen pixel. Stores its color value as RGBA.
+ * Representation of an onscreen pixel. Stores its color value as {@code RGBA}.
  *
  * @author @MaxineToTheStars <https://github.com/MaxineToTheStars>
  */
@@ -35,7 +35,7 @@ public final class Pixel {
     /**
      * Instances a new white {@link Pixel} object.
      *
-     * @return {@link Pixel}
+     * @return {@link Pixel} - A new {@link Pixel} of value {@code (255, 255, 255)}
      */
     public Pixel() {
         // Set pixel value to white
@@ -46,7 +46,7 @@ public final class Pixel {
      * Instances a new {@link Pixel} object with the specified {@link Color} value.
      *
      * @param value - The {@link Pixel} value
-     * @return {@link Pixel}
+     * @return {@link Pixel} - A new {@link Pixel} of the specified {@link Color}
      */
     public Pixel(final Color value) {
         // Set pixel data
@@ -59,10 +59,11 @@ public final class Pixel {
      * @param red   - The red channel value (0-255)
      * @param green - The green channel value (0-255)
      * @param blue  - The blue channel value (0-255)
-     * @throws IllegalArgumentException if {@code red}, {@code green}, or
+     * @throws IllegalArgumentException If {@code red}, {@code green}, or
      *                                  {@code blue} are outside of the range 0 to
      *                                  255, inclusive.
-     * @return {@link Pixel}
+     * @return {@link Pixel} - A new {@link Pixel} of the specified
+     *         {@code (Red, Green, Blue)} values
      */
     public Pixel(final int red, final int green, final int blue) throws IllegalArgumentException {
         // Create a new Color object and set it to pixel value
@@ -77,11 +78,12 @@ public final class Pixel {
      * @param green - The green channel value (0-255)
      * @param blue  - The blue channel value (0-255)
      * @param alpha - The alpha value (0-255)
-     * @throws IllegalArgumentException if {@code red}, {@code green},
+     * @throws IllegalArgumentException If {@code red}, {@code green},
      *                                  {@code blue}, or {@code alpha} are outside
      *                                  of the range 0 to
      *                                  255, inclusive.
-     * @return {@link Pixel}
+     * @return {@link Pixel} - A new {@link Pixel} of the specified
+     *         {@code (Red, Green, Blue, Alpha)} values
      */
     public Pixel(final int red, final int green, final int blue, final int alpha) throws IllegalArgumentException {
         // Create a new Color object and set it to pixel value
@@ -94,7 +96,7 @@ public final class Pixel {
     /**
      * Returns the {@link Pixel}'s {@link Color} value.
      *
-     * @return {@link Color}
+     * @return {@link Color} - The {@link Pixel} as a {@link Color} value
      */
     public Color getPixelValue() {
         // Return the pixel value
@@ -116,7 +118,8 @@ public final class Pixel {
      * Compares two {@link Pixel} objects to see if they are the same.
      *
      * @param pixel - The {@link Pixel} to compare
-     * @return {@link boolean}
+     * @return {@link boolean} - The specified {@link Pixel} is equal to
+     *         {@code this} {@link Pixel}
      */
     public boolean equals(final Pixel pixel) {
         // Check if the current pixel is equal to the specific pixel

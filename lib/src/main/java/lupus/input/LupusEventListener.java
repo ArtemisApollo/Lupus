@@ -42,7 +42,7 @@ public class LupusEventListener implements AWTEventListener {
 
     // Public Inherited Methods
     /**
-     * Registers the listener to listen for a specified event ID(s).
+     * Registers the {@link LupusEventListener} to listen for specified event ID(s).
      *
      * @param eventID - The event ID(s) to listen for
      * @see {@link AWTEvent}
@@ -55,7 +55,7 @@ public class LupusEventListener implements AWTEventListener {
 
     /**
      * Handles the receiving of queued {@link AWTEvent}s based on the current value
-     * of {@code listenID(s)}.
+     * of {@code listenIDs}.
      *
      * @return {@link void}
      */

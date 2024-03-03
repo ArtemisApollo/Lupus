@@ -33,12 +33,13 @@ public final class LupusMath {
 
     // Public Static Methods
     /**
-     * Clamps a given value between the minimum and maximum values inclusive.
+     * Clamps a given value between the {@code minimum} and {@code maximum} values
+     * inclusive.
      *
      * @param value        - The value to clamp
      * @param minimumValue - The minimum allowed value
      * @param maximumValue - The maximum allowed value
-     * @return {@link float}
+     * @return {@link float} - The clamped value
      */
     public static float clamp(float value, float minimumValue, float maximumValue) {
         return Math.max(minimumValue, Math.min(maximumValue, value));

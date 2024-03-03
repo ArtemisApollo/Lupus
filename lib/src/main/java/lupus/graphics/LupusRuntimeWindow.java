@@ -66,10 +66,10 @@ public final class LupusRuntimeWindow extends Canvas {
         this._pixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
 
         // Debugging: Fill buffer with specific pixel
-        // this._fillPixelBufferArray(new Pixel(125, 125, 220));
+        this._fillPixelBufferArray(new Pixel(125, 125, 220));
 
         // Fill with empty white pixels
-        this._fillPixelBufferArray();
+        // this._fillPixelBufferArray();
 
         // Instance a new node tree
         this._nodeTree = new ArrayList<Node>();
@@ -95,7 +95,7 @@ public final class LupusRuntimeWindow extends Canvas {
      * Implementation of the {@code getVisibilityState} method found in the
      * {@link LupusWindow} class.
      *
-     * @return {@link boolean}
+     * @return {@link boolean} - The {@link JFrame}'s current visibility status
      */
     public boolean getVisibilityStateImpl() {
         // Return visibility state
@@ -245,9 +245,11 @@ public final class LupusRuntimeWindow extends Canvas {
                             : (xIndex >= pixelDifferenceX);
                     final boolean isLessThanXDifference = (pixelDifferenceX == -1) ? false
                             : (xIndex < pixelDifferenceX);
+                    final boolean isAtTheEndOfTheBuffer = (yIndex == this._getYBufferLength() - 1);
 
                     // Check conditional
-                    if (isCurrentPixelEqualToPreviousPixel == true && isGreaterThanOrEqualToXDifference == false) {
+                    if (isCurrentPixelEqualToPreviousPixel == true && isGreaterThanOrEqualToXDifference == false
+                            && isAtTheEndOfTheBuffer == false) {
                         // Skip to next pixel
                         continue;
                     }
@@ -257,7 +259,7 @@ public final class LupusRuntimeWindow extends Canvas {
                     pixelDifferenceY = (pixelDifferenceY == -1) ? yIndex : pixelDifferenceY;
 
                     // Check if the current xIndex is less than the pixel difference
-                    if (isGreaterThanOrEqualToXDifference == true) {
+                    if (isGreaterThanOrEqualToXDifference == true && isAtTheEndOfTheBuffer == false) {
                         // Change the Y
                         yIndex = (int) LupusMath.clamp(yIndex + 1, 0, (this._getYBufferLength() - 1));
 
@@ -269,7 +271,7 @@ public final class LupusRuntimeWindow extends Canvas {
                     }
 
                     // Check if the current xIndex is less than the pixel difference
-                    if (isLessThanXDifference == true) {
+                    if (isLessThanXDifference == true || isAtTheEndOfTheBuffer == true) {
                         // Get the pixel value
                         final Color pixelValue = previousPixel.getPixelValue();
 
@@ -440,7 +442,7 @@ public final class LupusRuntimeWindow extends Canvas {
     /**
      * Returns the length of the {@code Y} buffer in the {@code pixelBufferArray}.
      *
-     * @return {@link int}
+     * @return {@link int} - The {@code Y} length of the buffer
      */
     private int _getYBufferLength() {
         return this._pixelBufferArray.length;
@@ -449,7 +451,7 @@ public final class LupusRuntimeWindow extends Canvas {
     /**
      * Returns the length of the {@code X} buffer in the {@code pixelBufferArray}.
      *
-     * @return {@link int}
+     * @return {@link int} - The {@code X} length of the buffer
      */
     private int _getXBufferLength() {
         return this._pixelBufferArray[0].length;
@@ -458,7 +460,7 @@ public final class LupusRuntimeWindow extends Canvas {
     /**
      * Returns the length of the {@code Z} buffer in the {@code pixelBufferArray}.
      *
-     * @return {@link int}
+     * @return {@link int} - The {@code Z} length of the buffer
      */
     private int _getZBufferLength() {
         return this._pixelBufferArray[0][0].length;

@@ -70,9 +70,9 @@ public abstract class Node extends LupusEventListener {
      * Returns the child {@link Node} at the given index.
      *
      * @param index - The index of the child
-     * @throws IndexOutOfBoundsException if the index is out of range
-     *                                   ({@code index < 0 || index >= size()}).
-     * @return {@link Node}
+     * @throws IndexOutOfBoundsException If the index is out of range
+     *                                   ({@code index < 0 || index >= size()})
+     * @return {@link Node} - The child {@link Node} at {@code index}
      */
     public Node getChildNode(final int index) throws IndexOutOfBoundsException {
         // Get get the children node at index
@@ -82,7 +82,8 @@ public abstract class Node extends LupusEventListener {
     /**
      * Returns all the children attached to this object.
      *
-     * @return {@link Node}[]
+     * @return {@link Node}[] - All the children {@link Node}s attached to
+     *         {@code this} object
      */
     public Node[] getChildrenNodes() {
         // Create a new Node array
@@ -99,7 +100,7 @@ public abstract class Node extends LupusEventListener {
      * Returns the parent {@link Node} of the current {@link Node}, or {@code null}
      * if the {@link Node} lacks a parent.
      *
-     * @return {@link Node}
+     * @return {@link Node} - The parent {@link Node} of {@code this} object
      */
     public Node getParentNode() {
         // Return the parent node
@@ -147,7 +148,7 @@ public abstract class Node extends LupusEventListener {
      * Get the current {@link Position} of the {@link Node}. If {@code null} returns
      * the {@link Position} of its' parent.
      *
-     * @return {@link Position}
+     * @return {@link Position} - The position of this {@link Node} on the screen
      */
     public Position getPosition() {
         // Null check
@@ -199,7 +200,7 @@ public abstract class Node extends LupusEventListener {
      * Returns the current size of the {@link Node}. If {@code null} returns the
      * size of its' parent.
      *
-     * @return {@link Position}
+     * @return {@link Position} - The size of this {@link Node}
      */
     public Position getSize() {
         // Null check
@@ -249,7 +250,8 @@ public abstract class Node extends LupusEventListener {
      * Get the {@link Node}'s fill {@link Color}. If {@code null} returns the fill
      * {@link Color} of its' parent.
      *
-     * @return {@link Color}
+     * @return {@link Color} - The {@code fill} {@link Color} of {@code this}
+     *         {@link Node}
      */
     public Color getFillColor() {
         // Null check
@@ -266,7 +268,8 @@ public abstract class Node extends LupusEventListener {
      * Get the {@link Node}'s border {@link Color}. If {@code null} returns the
      * border {@link Color} of its' parent.
      *
-     * @return {@link Color}
+     * @return {@link Color} - The {@code border} {@link Color} of {@code this}
+     *         {@link Node}
      */
     public Color getBorderColor() {
         // Null check
@@ -283,7 +286,8 @@ public abstract class Node extends LupusEventListener {
      * Get the {@link Node}'s hover {@link Color}. If {@code null} returns the
      * hover {@link Color} of its' parent.
      *
-     * @return {@link Color}
+     * @return {@link Color} - The {@code hover} {@link Color} of {@code this}
+     *         {@link Node}
      */
     public Color getHoverColor() {
         // Null check
@@ -310,7 +314,8 @@ public abstract class Node extends LupusEventListener {
     /**
      * Get the {@link Node}'s {@link WidgetType}.
      *
-     * @return {@link WidgetType}
+     * @return {@link WidgetType} - The {@link WidgetType} of {@code this}
+     *         {@link Node}
      */
     public WidgetType getWidgetType() {
         // Return the widget type
@@ -320,7 +325,8 @@ public abstract class Node extends LupusEventListener {
     /**
      * Returns the {@link WidgetStyle} for the {@link Node}.
      *
-     * @return {@link WidgetStyle}
+     * @return {@link WidgetStyle} - The {@link WidgetStyle} of {@code this}
+     *         {@link Node}
      */
     public WidgetStyle getWidgetStyle() {
         // Create a new WidgetStyle
@@ -353,7 +359,7 @@ public abstract class Node extends LupusEventListener {
      * Returns the value at the specified key value or {@code null} if not found.
      *
      * @param key - The key
-     * @return {@link Object}
+     * @return {@link Object} - The {@code value} at the specified {@code key}
      */
     public Object getProperty(final String key) {
         // Return value at key

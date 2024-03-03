@@ -35,7 +35,7 @@ public class Position {
     /**
      * Creates an empty {@link Position} object set at {@code (0, 0)}.
      *
-     * @return {@link Position}
+     * @return {@link Position} - A new {@link Position} at {@code (0, 0)}
      */
     public Position() {
         // Set the X and Y position to (0, 0)
@@ -49,7 +49,7 @@ public class Position {
      *
      * @param x - The {@code x} position
      * @param y - The {@code y} position
-     * @return {@link Position}
+     * @return {@link Position} - A new {@link Position} at {@code {X, Y}}
      */
     public Position(final double x, final double y) {
         // Set the X and Y position to the specified values
@@ -63,7 +63,7 @@ public class Position {
     /**
      * Returns the {@code X} value.
      *
-     * @return {@link double}
+     * @return {@link double} - The {@code X} value
      */
     public double getX() {
         // Return the X coordinate
@@ -73,7 +73,7 @@ public class Position {
     /**
      * Returns the {@code Y} value.
      *
-     * @return {@link double}
+     * @return {@link double} - The {@code} Y value
      */
     public double getY() {
         // Return the Y coordinate
@@ -126,7 +126,13 @@ public class Position {
      * @return {@link Position}
      */
     public Position centerPosition(final Position currentPosition, final Position currentSize) {
-        // Early return
+        /**
+         * TODO: Either deprecate OR implement this method
+         *
+         * Given its use case it may be deprecated
+         */
+
+        // Return null
         return null;
     }
 

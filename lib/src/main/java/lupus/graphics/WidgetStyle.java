@@ -42,7 +42,7 @@ public final class WidgetStyle {
          * @param intValue    - The {@link int} representation
          * @param stringValue - The {@link String} representation
          * @see {@link WidgetStyle}
-         * @return {@link WidgetType}
+         * @return {@link WidgetType} - A new {@link WidgetType}
          */
         private WidgetType(final int intValue, final String stringValue) {
             // Set values
@@ -56,7 +56,7 @@ public final class WidgetStyle {
         /**
          * Returns the {@link int} value of the {@link WidgetType} enum.
          *
-         * @return {@link int}
+         * @return {@link int} - The integer value representation
          */
         public int getValue() {
             // Return int value
@@ -66,7 +66,7 @@ public final class WidgetStyle {
         /**
          * Returns the {@link String} value of the {@link WidgetType} enum.
          *
-         * @return {@link String}
+         * @return {@link String} - The {@link String} value representation
          */
         public String getStringValue() {
             // Return string value
@@ -95,7 +95,7 @@ public final class WidgetStyle {
     /**
      * Instances a new {@link WidgetStyle} object.
      *
-     * @return {@link WidgetStyle}
+     * @return {@link WidgetStyle} - A new {@link WidgetStyle}
      */
     public WidgetStyle() {
         // Early return
@@ -107,7 +107,7 @@ public final class WidgetStyle {
      * {@link WidgetType}.
      *
      * @param widgetType - The {@link WidgetType}
-     * @return {@link WidgetStyle}
+     * @return {@link WidgetStyle} - The {@link Node}'s {@link WidgetStyle}
      */
     public WidgetStyle(final WidgetType widgetType) {
         // Set the widget type
@@ -164,7 +164,7 @@ public final class WidgetStyle {
     /**
      * Returns the fill {@link Color} property.
      *
-     * @return {@link Color}
+     * @return {@link Color} - The {@code fill} {@link Color} value
      */
     public Color getFillColor() {
         // Return the fill color
@@ -174,7 +174,7 @@ public final class WidgetStyle {
     /**
      * Returns the border {@link Color} property.
      *
-     * @return {@link Color}
+     * @return {@link Color} - The {@code border} {@link Color} value
      */
     public Color getBorderColor() {
         // Return the border color
@@ -184,7 +184,7 @@ public final class WidgetStyle {
     /**
      * Returns the hover {@link Color} property.
      *
-     * @return {@link Color}
+     * @return {@link Color} - The {@code hover} {@link Color} value
      */
     public Color getHoverColor() {
         // Return the hover color
@@ -194,7 +194,7 @@ public final class WidgetStyle {
     /**
      * Returns the {@link WidgetType}.
      *
-     * @return {@link WidgetType}
+     * @return {@link WidgetType} - The {@link Node}'s {@link WidgetType}
      */
     public WidgetType getWidgetType() {
         // Return the widget tYpe
@@ -202,7 +202,7 @@ public final class WidgetStyle {
     }
 
     /**
-     * Set the Z index property.
+     * Set the {@code Z} index property.
      *
      * @param index - The index
      * @return {@link void}
@@ -213,9 +213,9 @@ public final class WidgetStyle {
     }
 
     /**
-     * Returns the Z index property.
+     * Returns the {@code Z} index property.
      *
-     * @return {@link int}
+     * @return {@link int} - The {@code Z} index
      */
     public int getZIndex() {
         // Return the Z index

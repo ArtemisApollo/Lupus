@@ -54,11 +54,11 @@ public abstract class Application {
      * @param appClassReference - A reference to the inheriting {@link Application}
      *                          class
      * @param args              - Command line arguments
-     * @throws IllegalStateException if the {@link LupusRuntimeLauncher} was invoked
-     *                               again after running {@code launchApp}.
+     * @throws IllegalStateException If the {@link LupusRuntimeLauncher} was invoked
+     *                               again after running {@code launchApp}
      *
-     * @throws RuntimeException      if the {@link LupusRuntime} runs into an
-     *                               unexpected error while running.
+     * @throws RuntimeException      If the {@link LupusRuntime} runs into an
+     *                               unexpected error while running
      * @return {@link void}
      */
     public static void launchApp(final Class<? extends Application> appClassReference, final String[] args)
@@ -71,7 +71,7 @@ public abstract class Application {
     /**
      * The {@code main} method for your application.
      *
-     * @param app - Lupus API object
+     * @param app - {@link LupusApp} reference
      * @return {@link void}
      */
     public void start(final LupusApp app) {
