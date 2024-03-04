@@ -209,7 +209,7 @@ public final class LupusRuntimeWindow extends Canvas {
 
     // Private Inherited Methods
     /**
-     * Fills the specified {@code Pixel}BufferArray with {@code white} {@link Pixel}
+     * Fills the specified {@link Pixel}BufferArray with {@code white} {@link Pixel}
      * objects.
      *
      * @param frameBuffer - The specific frame buffer to fill
@@ -230,7 +230,7 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
-     * Fills the specified {@code Pixel}BufferArray with the specified {@link Pixel}
+     * Fills the specified {@link Pixel}BufferArray with the specified {@link Pixel}
      * object.
      *
      * @param frameBuffer - The specific frame buffer to fill
@@ -252,7 +252,7 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
-     * Iterates through the node tree and calls {@code _updateNode}.
+     * Iterates through the {@link Node} tree and calls {@code _updateNode}.
      *
      * @return {@link void}
      */
@@ -265,8 +265,8 @@ public final class LupusRuntimeWindow extends Canvas {
     }
 
     /**
-     * Recursively traverses through the {@code currentNode}'s node tree updating
-     * and drawing each component.
+     * Recursively traverses through the {@code currentNode}'s {@link Node} tree
+     * updating and drawing each component.
      *
      * @param currentNode - The current node of the recursive method
      * @return {@link void}
