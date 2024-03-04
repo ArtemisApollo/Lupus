@@ -68,7 +68,7 @@ public final class LupusRuntimeWindow extends Canvas {
         this._secondFramePixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
 
         // Debugging: Fill buffer with specific pixel
-        this._fillFrameBufferArray(this._firstFramePixelBufferArray, new Pixel(125, 125, 225));
+        this._fillFrameBufferArray(this._firstFramePixelBufferArray, new Pixel());
         this._fillFrameBufferArray(this._secondFramePixelBufferArray, new Pixel(125, 125, 225));
 
         // Fill with empty white pixels
@@ -223,7 +223,7 @@ public final class LupusRuntimeWindow extends Canvas {
                 // Iterate through the Z index
                 for (int zIndex = 0; zIndex < frameBuffer[yIndex][xIndex].length; zIndex++) {
                     // Fill with an empty pixel
-                    frameBuffer[xIndex][yIndex][zIndex] = new Pixel();
+                    frameBuffer[yIndex][xIndex][zIndex] = new Pixel();
                 }
             }
         }
@@ -245,7 +245,7 @@ public final class LupusRuntimeWindow extends Canvas {
                 // Iterate through the Z index
                 for (int zIndex = 0; zIndex < frameBuffer[yIndex][xIndex].length; zIndex++) {
                     // Fill with an empty pixel
-                    frameBuffer[xIndex][yIndex][zIndex] = pixel;
+                    frameBuffer[yIndex][xIndex][zIndex] = pixel;
                 }
             }
         }
