@@ -48,7 +48,7 @@ public abstract class BaseButton extends Node {
         // Set default colors
         this.setBorderColor(new Color(0, 0, 0));
         this.setFillColor(new Color(145, 150, 150));
-        this.setHoverColor(new Color(175, 180, 180));
+        this.setHoverColor(new Color(185, 185, 185));
     }
 
     // Public Static Methods

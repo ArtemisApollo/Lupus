@@ -3,40 +3,36 @@ package lupus.graphics;
 
 // Import Statements
 // ----------------------------------------------------------------
-import java.awt.Color;
-import java.awt.Canvas;
-import java.awt.Graphics;
+import java.lang.Thread;
 import javax.swing.JFrame;
 import java.awt.Dimension;
 import java.util.ArrayList;
 // ---
 import lupus.core.LupusApp;
-import lupus.utils.LupusMath;
-import lupus.graphics.Position;
-import lupus.graphics.WidgetStyle;
 import lupus.graphics.components.Node;
 import lupus.core.LupusApp.LupusWindow;
+import lupus.graphics.LupusRuntimeRenderingThread;
 // ---
 
 // ----------------------------------------------------------------
 
 // File Docstring
 /**
- * Handles the visual component(s) of the framework. All requests to
- * modify the window should be done via the {@link LupusApp} class. The app
- * developer should not have to invoke methods from this class.
+ * Handles the creation of the runtime window and {@link Node} tree.
+ * All requests to modify the window should be done via the {@link LupusApp}
+ * object. The app developer should not have to invoke methods from this class.
  *
  * @author @MaxineToTheStars <https://github.com/MaxineToTheStars>
  */
 
 // Class Definition
-public final class LupusRuntimeWindow extends Canvas {
+public final class LupusRuntimeWindow extends JFrame {
     // Enums
 
     // Interfaces
 
     // Constants
-    public static final int _MAXIMIN_Z_LEVEL = 2;
+    public final static int _MAXIMIN_Z_LEVEL = 2;
 
     // Public Variables
 
@@ -44,9 +40,9 @@ public final class LupusRuntimeWindow extends Canvas {
     private int _windowWidth;
     private int _windowHeight;
     private Dimension _windowDimensions;
-    private Pixel[][][] _frameBufferArray;
+    private Thread _lupusRuntimeRenderingThread;
+    private LupusRuntimeRenderingThread _renderingRuntime;
     private final ArrayList<Node> _nodeTree;
-    private final JFrame _runtimeWindowJFrame;
 
     // Constructor
     /**
@@ -62,30 +58,40 @@ public final class LupusRuntimeWindow extends Canvas {
         this._windowHeight = windowHeight;
         this._windowDimensions = new Dimension(this._windowWidth, this._windowHeight);
 
-        // Instance the frame buffer
-        this._frameBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
-
-        // Debugging: Fill buffer with a specific pixel
-        this._fillFrameBufferArray(this._frameBufferArray, new Pixel(125, 125, 225));
-
-        // Fill with empty white pixels
-        // this._fillFrameBufferArray(this._frameBufferArray);
-
         // Instance a new node tree
         this._nodeTree = new ArrayList<Node>();
 
-        // Instance a new JFrame
-        this._runtimeWindowJFrame = new JFrame();
+        // TODO: Fix this god awful naming
+        // Instance a new lupus renderer
+        this._renderingRuntime = new LupusRuntimeRenderingThread(windowWidth, windowHeight);
 
-        // Set sane defaults
-        this._runtimeWindowJFrame.setResizable(false);
-        this._runtimeWindowJFrame.setUndecorated(false);
-        this._runtimeWindowJFrame.setDefaultCloseOperation(3);
-        this._runtimeWindowJFrame.setTitle("Lupus-RuntimeWindow");
-        this._runtimeWindowJFrame.setPreferredSize(this._windowDimensions);
+        // Instance a new thread
+        this._lupusRuntimeRenderingThread = new Thread(this._renderingRuntime);
 
-        // Add a reference to the Canvas
-        this._runtimeWindowJFrame.add(this);
+        // Configure the thread
+        this._lupusRuntimeRenderingThread.setName("LupusRuntimeWindow-RenderingThread");
+
+        // Testing
+        final Thread updateThread = new Thread(){
+            public void run() {
+                while(true) {
+                    _updateNodeTree();
+                }
+            }
+        };
+
+        updateThread.start();
+
+
+        // Set sane window defaults
+        this.setResizable(false);
+        this.setUndecorated(false);
+        this.setDefaultCloseOperation(3);
+        this.setTitle("Lupus-RuntimeWindow");
+        this.setPreferredSize(this._windowDimensions);
+
+        // Add render to window
+        this.add(this._renderingRuntime);
     }
 
     // Public Static Methods
@@ -95,11 +101,12 @@ public final class LupusRuntimeWindow extends Canvas {
      * Implementation of the {@code getVisibilityState} method found in the
      * {@link LupusWindow} class.
      *
-     * @return {@link boolean} - The {@link JFrame}'s current visibility status
+     * @return {@link boolean} - {@link LupusRuntimeWindow}'s current visibility
+     *         status
      */
     public boolean getVisibilityStateImpl() {
         // Return visibility state
-        return this._runtimeWindowJFrame.isVisible();
+        return this.isVisible();
     }
 
     /**
@@ -111,13 +118,16 @@ public final class LupusRuntimeWindow extends Canvas {
      */
     public void startImpl() {
         // Pack the frame
-        this._runtimeWindowJFrame.pack();
+        this.pack();
 
         // Set location to center
-        this._runtimeWindowJFrame.setLocationRelativeTo(null);
+        this.setLocationRelativeTo(null);
 
         // Set visible
         this.setWindowVisibilityImpl(true);
+
+        // Start rendering
+        this._lupusRuntimeRenderingThread.start();
     }
 
     /**
@@ -147,7 +157,7 @@ public final class LupusRuntimeWindow extends Canvas {
      */
     public void setWindowTitleImpl(final String text) {
         // Set the title
-        this._runtimeWindowJFrame.setTitle(text);
+        this.setTitle(text);
     }
 
     /**
@@ -161,19 +171,19 @@ public final class LupusRuntimeWindow extends Canvas {
         // Check if setting to visible
         if (value == true) {
             // Pack the frame
-            this._runtimeWindowJFrame.pack();
+            this.pack();
 
             // Set visibility state
-            this._runtimeWindowJFrame.setVisible(value);
+            this.setVisible(value);
         }
 
         // Check if setting to hidden
         if (value == false) {
             // Set visibility state
-            this._runtimeWindowJFrame.setVisible(value);
+            this.setVisible(value);
 
             // Dispose of the current JFrame
-            this._runtimeWindowJFrame.dispose();
+            this.dispose();
         }
     }
 
@@ -186,67 +196,12 @@ public final class LupusRuntimeWindow extends Canvas {
      */
     public void setDecoratedImpl(final boolean value) {
         // Set decorated state
-        this._runtimeWindowJFrame.setUndecorated(!value);
-    }
-
-    /**
-     * Overridden from {@link Canvas} class. Handles the drawing portion of
-     * {@code Lupus}.
-     *
-     * @return {@link void}
-     */
-    @Override
-    public void paint(final Graphics graphicsReference) {
-        // Early return
-        return;
+        this.setUndecorated(!value);
     }
 
     // Private Static Methods
 
     // Private Inherited Methods
-    /**
-     * Fills the specified {@link Pixel}BufferArray with {@code white} {@link Pixel}
-     * objects.
-     *
-     * @param frameBuffer - The specific frame buffer to fill
-     * @return {@link void}
-     */
-    private void _fillFrameBufferArray(final Pixel[][][] frameBuffer) {
-        // Iterate through the Y index
-        for (int yIndex = 0; yIndex < frameBuffer.length; yIndex++) {
-            // Iterate through the X index
-            for (int xIndex = 0; xIndex < frameBuffer[yIndex].length; xIndex++) {
-                // Iterate through the Z index
-                for (int zIndex = 0; zIndex < frameBuffer[yIndex][xIndex].length; zIndex++) {
-                    // Fill with an empty pixel
-                    frameBuffer[yIndex][xIndex][zIndex] = new Pixel();
-                }
-            }
-        }
-    }
-
-    /**
-     * Fills the specified {@link Pixel}BufferArray with the specified {@link Pixel}
-     * object.
-     *
-     * @param frameBuffer - The specific frame buffer to fill
-     * @param pixel       - The {@link Pixel} object to use
-     * @return {@link void}
-     */
-    private void _fillFrameBufferArray(final Pixel[][][] frameBuffer, final Pixel pixel) {
-        // Iterate through the Y index
-        for (int yIndex = 0; yIndex < frameBuffer.length; yIndex++) {
-            // Iterate through the X index
-            for (int xIndex = 0; xIndex < frameBuffer[yIndex].length; xIndex++) {
-                // Iterate through the Z index
-                for (int zIndex = 0; zIndex < frameBuffer[yIndex][xIndex].length; zIndex++) {
-                    // Fill with an empty pixel
-                    frameBuffer[yIndex][xIndex][zIndex] = pixel;
-                }
-            }
-        }
-    }
-
     /**
      * Iterates through the {@link Node} tree and calls {@code _updateNode}.
      *
@@ -283,69 +238,17 @@ public final class LupusRuntimeWindow extends Canvas {
         // Draw the component based on its widget type
         switch (widgetStyle.getWidgetType().getStringValue()) {
             case "BUTTON":
-                // Draw the button
-                this._drawButton(widgetStyle, currentNode);
+                // Draw button
+                this._renderingRuntime.drawButton(widgetStyle, currentNode);
 
                 // Break from case
                 break;
             default:
-                // Break from case by default
+                // Break from case
                 break;
         }
 
         // Debug
         System.out.println("Component drawn!");
-    }
-
-    /**
-     * Draws a {@code Button} by modifying the {@code PixelBufferArray}.
-     *
-     * @param widgetStyle - The {@link WidgetStyle}
-     * @param currentNode - The current {@link Node}
-     * @implNote Looking back at this code I still have no clue why I must start
-     *           from Y {@code (WIDTH)} then go to X {@code (HEIGHT)}
-     * @return {@link void}
-     */
-    private void _drawButton(final WidgetStyle widgetStyle, final Node currentNode) {
-        // Get the button position
-        final Position buttonPosition = currentNode.getPosition();
-
-        // Get the button size
-        final Position buttonSize = currentNode.getSize();
-
-        // Get the length on the X plane
-        final int combinedX = (int) (buttonPosition.getX() + buttonSize.getX());
-
-        // Get the length on the Y plane
-        final int combinedY = (int) (buttonPosition.getY() + buttonSize.getY());
-
-        // Create the top and bottom sides of the button
-        for (int x = (int) buttonPosition.getX(); x <= combinedX && x < this._frameBufferArray[0].length; x++) {
-            // Fill in the pixel buffer
-            this._frameBufferArray[combinedY][x][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getBorderColor());
-            this._frameBufferArray[(int) buttonPosition.getY()][x][widgetStyle.getZIndex()] = new Pixel(
-                    widgetStyle.getBorderColor());
-        }
-
-        // Create the left and right sides of the button
-        for (int y = (int) buttonPosition.getY(); y <= combinedY && y < this._frameBufferArray.length; y++) {
-            // Fill in the pixel buffer
-            this._frameBufferArray[y][combinedX][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getBorderColor());
-            this._frameBufferArray[y][(int) buttonPosition.getX()][widgetStyle.getZIndex()] = new Pixel(
-                    widgetStyle.getBorderColor());
-        }
-
-        // Fill the button
-        for (int x = (int) (buttonPosition.getX() + 1); x < combinedX && x < this._frameBufferArray[0].length; x++) {
-            for (int y = (int) (buttonPosition.getY() + 1); y < combinedY && y < this._frameBufferArray.length; y++) {
-                // Get hovered status
-                final boolean isHovered = (currentNode.getProperty("input.isHovered") == null) ? false : true;
-
-                // Fill in the pixel buffer
-                this._frameBufferArray[y][x][widgetStyle.getZIndex()] = (isHovered == false)
-                        ? new Pixel(widgetStyle.getFillColor())
-                        : new Pixel(widgetStyle.getHoverColor());
-            }
-        }
     }
 }
