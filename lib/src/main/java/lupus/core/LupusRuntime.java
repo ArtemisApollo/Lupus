@@ -41,7 +41,7 @@ public final class LupusRuntime {
      * @param appClassReference - A reference to the inheriting {@link Application}
      *                          class
      * @param args              - Command line arguments
-     * @return {@link void}
+     * @return {@link LupusRuntime} - A new {@link LupusRuntime} object
      */
     public LupusRuntime(final Class<? extends Application> appClassReference, final String[] args) {
         // Set runtime data

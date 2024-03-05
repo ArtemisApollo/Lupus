@@ -47,7 +47,7 @@ public final class LupusApp {
 		 * Instances a new {@link LupusWindow} object.
 		 *
 		 * @param window - The {@link LupusRuntimeWindow} component
-		 * @return {@link void}
+		 * @return {@link LupusWindow} - A new {@link LupusWindow} object
 		 */
 		protected LupusWindow(final LupusRuntimeWindow window) {
 			// Set a reference to the LupusRuntimeWindow

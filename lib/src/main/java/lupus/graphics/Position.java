@@ -12,7 +12,7 @@ package lupus.graphics;
 
 // File Docstring
 /**
- * Represents a {@code (X, Y)} position on screen.
+ * Represents an {@code (X, Y)} position on screen.
  *
  * @author @MaxineToTheStars <https://github.com/MaxineToTheStars>
  */

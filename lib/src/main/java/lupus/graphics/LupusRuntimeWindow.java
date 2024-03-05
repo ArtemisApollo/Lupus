@@ -54,7 +54,7 @@ public final class LupusRuntimeWindow extends Canvas {
      *
      * @param windowWidth  - The width of the window
      * @param windowHeight - The height of the window
-     * @return {@link void}
+     * @return {@link LupusRuntimeWindow} - A new {@link LupusRuntimeWindow} object
      */
     public LupusRuntimeWindow(final int windowWidth, final int windowHeight) {
         // Set window dimensions
