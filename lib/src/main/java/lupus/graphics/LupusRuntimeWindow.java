@@ -44,8 +44,7 @@ public final class LupusRuntimeWindow extends Canvas {
     private int _windowWidth;
     private int _windowHeight;
     private Dimension _windowDimensions;
-    private Pixel[][][] _firstFramePixelBufferArray;
-    private Pixel[][][] _secondFramePixelBufferArray;
+    private Pixel[][][] _frameBufferArray;
     private final ArrayList<Node> _nodeTree;
     private final JFrame _runtimeWindowJFrame;
 
@@ -63,17 +62,14 @@ public final class LupusRuntimeWindow extends Canvas {
         this._windowHeight = windowHeight;
         this._windowDimensions = new Dimension(this._windowWidth, this._windowHeight);
 
-        // Instance the frame buffers
-        this._firstFramePixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
-        this._secondFramePixelBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
+        // Instance the frame buffer
+        this._frameBufferArray = new Pixel[this._windowHeight][this._windowWidth][LupusRuntimeWindow._MAXIMIN_Z_LEVEL];
 
-        // Debugging: Fill buffer with specific pixel
-        this._fillFrameBufferArray(this._firstFramePixelBufferArray, new Pixel());
-        this._fillFrameBufferArray(this._secondFramePixelBufferArray, new Pixel(125, 125, 225));
+        // Debugging: Fill buffer with a specific pixel
+        this._fillFrameBufferArray(this._frameBufferArray, new Pixel(125, 125, 225));
 
         // Fill with empty white pixels
-        // this._fillFrameBufferArray(this._firstFramePixelBufferArray);
-        // this._fillFrameBufferArray(this._secondFramePixelBufferArray);
+        // this._fillFrameBufferArray(this._frameBufferArray);
 
         // Instance a new node tree
         this._nodeTree = new ArrayList<Node>();
@@ -324,34 +320,29 @@ public final class LupusRuntimeWindow extends Canvas {
         final int combinedY = (int) (buttonPosition.getY() + buttonSize.getY());
 
         // Create the top and bottom sides of the button
-        for (int x = (int) buttonPosition.getX(); x <= combinedX
-                && x < this._secondFramePixelBufferArray[0].length; x++) {
+        for (int x = (int) buttonPosition.getX(); x <= combinedX && x < this._frameBufferArray[0].length; x++) {
             // Fill in the pixel buffer
-            this._secondFramePixelBufferArray[combinedY][x][widgetStyle.getZIndex()] = new Pixel(
-                    widgetStyle.getBorderColor());
-            this._secondFramePixelBufferArray[(int) buttonPosition.getY()][x][widgetStyle.getZIndex()] = new Pixel(
+            this._frameBufferArray[combinedY][x][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getBorderColor());
+            this._frameBufferArray[(int) buttonPosition.getY()][x][widgetStyle.getZIndex()] = new Pixel(
                     widgetStyle.getBorderColor());
         }
 
         // Create the left and right sides of the button
-        for (int y = (int) buttonPosition.getY(); y <= combinedY && y < this._secondFramePixelBufferArray.length; y++) {
+        for (int y = (int) buttonPosition.getY(); y <= combinedY && y < this._frameBufferArray.length; y++) {
             // Fill in the pixel buffer
-            this._secondFramePixelBufferArray[y][combinedX][widgetStyle.getZIndex()] = new Pixel(
-                    widgetStyle.getBorderColor());
-            this._secondFramePixelBufferArray[y][(int) buttonPosition.getX()][widgetStyle.getZIndex()] = new Pixel(
+            this._frameBufferArray[y][combinedX][widgetStyle.getZIndex()] = new Pixel(widgetStyle.getBorderColor());
+            this._frameBufferArray[y][(int) buttonPosition.getX()][widgetStyle.getZIndex()] = new Pixel(
                     widgetStyle.getBorderColor());
         }
 
         // Fill the button
-        for (int x = (int) (buttonPosition.getX() + 1); x < combinedX
-                && x < this._secondFramePixelBufferArray[0].length; x++) {
-            for (int y = (int) (buttonPosition.getY() + 1); y < combinedY
-                    && y < this._secondFramePixelBufferArray.length; y++) {
+        for (int x = (int) (buttonPosition.getX() + 1); x < combinedX && x < this._frameBufferArray[0].length; x++) {
+            for (int y = (int) (buttonPosition.getY() + 1); y < combinedY && y < this._frameBufferArray.length; y++) {
                 // Get hovered status
                 final boolean isHovered = (currentNode.getProperty("input.isHovered") == null) ? false : true;
 
                 // Fill in the pixel buffer
-                this._secondFramePixelBufferArray[y][x][widgetStyle.getZIndex()] = (isHovered == false)
+                this._frameBufferArray[y][x][widgetStyle.getZIndex()] = (isHovered == false)
                         ? new Pixel(widgetStyle.getFillColor())
                         : new Pixel(widgetStyle.getHoverColor());
             }
